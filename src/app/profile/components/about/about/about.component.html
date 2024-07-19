@@ -1,0 +1,546 @@
+<p-toast></p-toast>
+<section class="px-8 flex flex-row gap-4 justify-between">
+  @if (userProfile.isError()) {
+  <h1>Error</h1>
+  } @else if (userProfile.isPending()) { } @else if (userProfile.isSuccess()){
+  <div class="flex flex-col gap-9 w-full">
+    @if (userProfile.data().isCurrent) { @if (userProfile.data().bio) {
+    <div
+      class="group/bio p-4 flex flex-col hover:ring-2 hover:ring-gray-100 rounded-md transition-all duration-200 ease-in-out"
+    >
+      <div class="flex flex-col gap-3 items-start content-center text-base">
+        <div class="flex flex-row justify-between text-center w-full">
+          <p class="font-IBMPlexMono font-medium">Biography</p>
+          <p
+            class="group-hover/bio:opacity-100 opacity-0 hover:text-gray-600 text-sm font-medium cursor-pointer transition-all duration-200 ease-in-out"
+            routerLink="/account/edit-profile"
+            fragment="bio"
+          >
+            Edit Bio
+          </p>
+        </div>
+        <p class="font-LotaGrotesqu font-light">
+          {{ userProfile.data().bio }}
+        </p>
+      </div>
+    </div>
+    } @else {
+    <div
+      class="p-4 flex flex-col gap-3 items-start content-center text-base font-medium"
+    >
+      <p class="font-IBMPlexMono">Biography</p>
+      <p
+        routerLink="/account/edit-profile"
+        fragment="bio"
+        class="font-LotaGrotesqu cursor-pointer"
+      >
+        Add bio
+      </p>
+    </div>
+    } } @else {
+    <div class="p-4 flex flex-col gap-3 items-start content-center text-base">
+      <p class="font-IBMPlexMono font-medium">Biography</p>
+      @if (userProfile.data().bio){
+      <p class="font-LotaGrotesqu text-gray-400 font-light">
+        {{ userProfile.data().bio }}
+      </p>
+      } @else {
+      <p class="font-LotaGrotesque text-gray-400 font-light">
+        {{ userProfile.data().full_name }} hasn’t added a biography yet 🙁
+      </p>
+      }
+    </div>
+    }
+    <!--  -->
+    @if (userProfile.data().isCurrent) { @if (userProfile.data()) {
+    <div
+      class="group/skills p-4 flex flex-col hover:ring-2 hover:ring-gray-100 rounded-md transition-all duration-200 ease-in-out"
+    >
+      <div
+        class="flex flex-col gap-3 items-start content-center text-base w-full"
+      >
+        <div class="flex flex-row justify-between text-center w-full">
+          <p class="font-IBMPlexMono font-medium">Skills</p>
+          <p
+            (click)="toggleSkillsDialog()"
+            class="group-hover/skills:opacity-100 opacity-0 hover:text-gray-600 text-sm font-medium cursor-pointer transition-all duration-200 ease-in-out"
+          >
+            Edit Skills
+          </p>
+        </div>
+
+        <div class="flex flex-row gap-4 items-center content-center w-full">
+          @for (skill of userProfile.data().skills; track $index) {
+          <p-chip
+            removable="true"
+            (onRemove)="onRemoveUserSkill($event, skill)"
+            >{{ skill.tag_name }}</p-chip
+          >
+          }
+        </div>
+      </div>
+    </div>
+    } @else {
+    <div
+      class="p-4 flex flex-col gap-3 items-start content-center text-base font-medium"
+    >
+      <p class="font-IBMPlexMono">Skills</p>
+      <p
+        (click)="toggleSkillsDialog()"
+        class="font-LotaGrotesqu cursor-pointer"
+      >
+        Add Skills
+      </p>
+    </div>
+    } } @else { @if (userProfile.data().skills) {
+    <div class="p-4 flex flex-col gap-4 items-start content-center text-base">
+      <p class="font-IBMPlexMono font-medium">Skills</p>
+      <div class="flex flex-row gap-4 items-center content-center w-full">
+        @for (skill of userProfile.data().skills; track $index) {
+        <p-chip removable="false">{{ skill.tag_name }}</p-chip>
+        }
+      </div>
+    </div>
+    } }
+    <!--  -->
+    <p-fieldset legend="Statistics">
+      <div class="grid grid-cols-3 grid-rows-3 gap-4">
+        <div
+          class="flex flex-row items-center content-center justify-center gap-10 bg-gray-100 rounded-lg p-5 col-span-2 row-span-2"
+        >
+          <p-chart
+            pTooltip="Weekly activity shows the posts published this week by {{
+              userProfile.data().full_name
+            }}"
+            tooltipPosition="bottom"
+            fitContent="true"
+            autoHide="true"
+            hideDelay="2000"
+            positionTop="-8"
+            life="3000"
+            class="w-full h-fit"
+            type="line"
+            [data]="weeklyChartData"
+            [options]="weeklyChartOptions"
+          />
+        </div>
+        <div
+          class="flex flex-row items-center content-center justify-center bg-gray-100 rounded-lg p-5 row-span-2 col-start-3"
+        >
+          <div class="flex flex-col items-center w-fit">
+            <p-knob
+              [(ngModel)]="userProfile.data().projects_count"
+              [valueTemplate]="knobProjects"
+              [strokeWidth]="6"
+              [readonly]="true"
+              [size]="140"
+              rangeColor="#ea64d924"
+              textColor="#0d0c22"
+              valueColor="#0d0c22"
+              ariaLabelledBy="label_projects"
+              [min]="0"
+              [max]="30"
+              [style]="{
+            borderRadius: '999px',
+            strokeLinecap: 'round',
+          }"
+              pTooltip="All posts ever published by {{
+                userProfile.data().full_name
+              }}"
+              tooltipPosition="right"
+              fitContent="true"
+              autoHide="true"
+              hideDelay="2000"
+              positionLeft="8"
+              life="2800"
+            />
+            <span
+              id="label_projects"
+              class="font-LotaGrotesque text-sm font-medium text-gray-500"
+            >
+              Shots Published
+            </span>
+          </div>
+        </div>
+
+        <div
+          class="group/timeSpent bg-gray-100 rounded-lg p-5 col-span-3 row-start-3 inline-flex items-center justify-between"
+        >
+          <p
+            class="inline-flex items-center font-LotaGrotesqu font-light text-base text-gray-500"
+          >
+            Average project completion time @if
+            (userProfile.data().averageTimeSpent) {
+            <span class="bg-black text-white mx-3 rounded-full px-4 py-1"
+              >{{ userProfile.data().averageTimeSpent
+              }}<span class="text-sm">h</span></span
+            >
+            } @else {
+            <span class="bg-black text-white mx-3 rounded-full px-4 py-1"
+              >Unknown 🤔</span
+            >
+            }
+          </p>
+
+          <span class="relative flex h-6 w-6">
+            <ng-icon
+              class="absolute h-full w-full text-gray-400 text-base group-hover/timeSpent:animate-ping opacity-75"
+              name="ionTimeOutline"
+              size="24"
+              strokeWidth="30px"
+            ></ng-icon>
+            <ng-icon
+              class="relative text-gray-400 text-base group-hover/timeSpent:animate-pulse"
+              name="ionTimeOutline"
+              size="24"
+              strokeWidth="30px"
+            ></ng-icon>
+          </span>
+        </div>
+      </div>
+    </p-fieldset>
+    <p-dialog
+      header="Header"
+      [modal]="true"
+      [(visible)]="isSkillsDialogVisible"
+      [style]="{ width: '37rem' }"
+      [draggable]="false"
+      [closable]="false"
+    >
+      <ng-template pTemplate="header"
+        ><div class="px-4 pt-5 flex flex-col gap-2 items-start content-center">
+          <p class="font-LotaGrotesque text-4xl font-bold">
+            Edit work preferences
+          </p>
+          <p class="font-IBMPlexMono text-base font-normal text-gray-500">
+            In order to make you available and match you with the right
+            opportunities we need some additional information first.
+          </p>
+        </div></ng-template
+      >
+      <div class="flex flex-col gap-4">
+        <div class="px-4">
+          <form
+            [formGroup]="updateCurrentProfileDataForm"
+            (ngSubmit)="onSubmit()"
+          >
+            <p-accordion>
+              <p-accordionTab header="What is your work availability?">
+                <div
+                  class="inline-flex gap-4 w-full items-center content-center justify-around transition-all"
+                >
+                  <p
+                    class="font-medium font-LotaGrotesque duration-200 ease-in-out"
+                    [ngClass]="
+                      isAvailableForWork ? 'text-gray-400' : 'text-gray-500'
+                    "
+                  >
+                    Not available
+                  </p>
+                  <p-inputSwitch
+                    formControlName="open_to_work"
+                    (onChange)="onSwitchChange($event)"
+                  ></p-inputSwitch>
+                  <p
+                    class="font-medium font-LotaGrotesque duration-200 ease-in-out"
+                    [ngClass]="
+                      isAvailableForWork ? 'text-gray-500' : 'text-gray-400'
+                    "
+                  >
+                    Available for work
+                  </p>
+                </div>
+              </p-accordionTab>
+            </p-accordion>
+          </form>
+
+          <form
+            [formGroup]="skillsForm"
+            class="pt-6 flex flex-col gap-4 xs:gap-6 w-full"
+          >
+            <fieldset class="flex flex-col gap-2 w-full">
+              <label
+                class="font-LotaGrotesque font-medium text-md text-black"
+                for="identifier"
+                >Skills</label
+              >
+              <p-chips
+                formControlName="skills"
+                max="16"
+                allowDuplicate="false"
+                addOnBlur="true"
+                addOnTab="true"
+                separator=","
+              />
+
+              <p class="font-LotaGrotesque text-xs font-light text-gray-400">
+                Add up to 16 skills. Use a comma to separate skills, or choose
+                from the list.
+              </p>
+            </fieldset>
+          </form>
+        </div>
+        <div
+          class="px-4 border-t-[1px] border-solid border-gray-300 w-full"
+        ></div>
+        <div class="flex flex-row justify-between">
+          <button
+            (click)="toggleSkillsDialog()"
+            class="font-LotaGrotesque w-fit ring-1 text-black ring-gray-100 bg-gray-100 hover:bg-gray-200 focus:bg-gray-200 font-semibold rounded-full text-sm px-5 py-2.5 transition-all duration-200 ease-in-out"
+          >
+            Cancel
+          </button>
+          <button
+            type="submit"
+            (click)="onSubmit()"
+            class="float-right font-LotaGrotesque w-fit ring-1 text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 rounded-full text-sm px-6 py-3 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 font-semibold transition-all duration-200 ease-in-out"
+          >
+            Save & Exit
+          </button>
+        </div>
+      </div>
+    </p-dialog>
+
+    <div class="px-4 border-t-[1px] border-solid border-gray-300 w-full"></div>
+    <div
+      class="p-4 flex flex-row gap-7 items-start content-center font-IBMPlexMono font-semibold text-gray-500 text-sm"
+    >
+      <p class="hover:text-black transition-all duration-200 ease-in-out">
+        {{ userProfile.data().followers_count }} followers
+      </p>
+      <p class="hover:text-black transition-all duration-200 ease-in-out">
+        {{ userProfile.data().following_count }} following
+      </p>
+    </div>
+  </div>
+  <!--  -->
+  <div class="flex flex-col gap-9 items-start">
+    <div
+      class="w-full p-5 bg-gray-50 rounded-md flex flex-col items-start text-nowrap h-fit content-center gap-4 text-sm font-LotaGrotesque font-normal text-gray-500"
+    >
+      @if(userProfile.data().location) {
+      <span class="inline-flex gap-2 items-center"
+        ><ng-icon class="text-black text-base" name="octLocation"></ng-icon>
+        <p>
+          {{ userProfile.data().location }}
+        </p></span
+      >
+      }
+      <span class="inline-flex gap-2 items-center">
+        <ng-icon class="text-black text-base" name="octPerson"></ng-icon>
+        <p>
+          Member since
+          {{ userProfile.data().registration_date | date : 'MMM, y' }}
+        </p>
+      </span>
+    </div>
+    @if (userProfile.data().isCurrent && userProfile.data()) {
+    <div
+      class="group/social p-4 flex flex-col hover:ring-2 hover:ring-gray-100 rounded-md transition-all duration-200 ease-in-out"
+    >
+      <div
+        class="flex flex-col items-start text-nowrap h-fit content-center gap-4 text-sm font-LotaGrotesque font-normal text-gray-500"
+      >
+        <div class="flex flex-row gap-28 justify-between text-center w-full">
+          <p class="font-IBMPlexMono font-medium text-base text-black">
+            Social
+          </p>
+          <p
+            routerLink="/account/social-profiles"
+            class="group-hover/social:opacity-100 text-black opacity-0 hover:text-gray-600 text-sm font-medium cursor-pointer transition-all duration-200 ease-in-out"
+          >
+            Edit Social Links
+          </p>
+        </div>
+        @if(userProfile.data().personal_website_url) {
+        <a
+          href="{{ userProfile.data().personal_website_url }}"
+          class="inline-flex gap-2 items-center"
+          ><ng-icon
+            class="text-black text-base"
+            name="octFeedPerson"
+            size="20"
+          ></ng-icon>
+          <p>
+            {{ userProfile.data().personal_website_url }}
+          </p></a
+        >
+        } @if(userProfile.data().twitter_url) {
+        <a
+          href="{{ userProfile.data().twitter_url }}"
+          class="inline-flex gap-2 items-center"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapTwitter"
+            size="20"
+          ></ng-icon>
+          <p>Twitter</p></a
+        >
+        } @if(userProfile.data().facebook_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().facebook_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapFacebook"
+            size="20"
+          ></ng-icon>
+          <p>Facebook</p></a
+        >
+        } @if(userProfile.data().instagram_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().instagram_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapInstagram"
+            size="20"
+          ></ng-icon>
+          <p>Instagram</p></a
+        >
+        } @if(userProfile.data().github_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().github_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapGithub"
+            size="20"
+          ></ng-icon>
+          <p>GitHub</p></a
+        >
+        } @if(userProfile.data().behance_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().behance_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapBehance"
+            size="20"
+          ></ng-icon>
+          <p>Behance</p></a
+        >
+        } @if(userProfile.data().linkedIn_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().linkedIn_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapLinkedin"
+            size="20"
+          ></ng-icon>
+          <p>LinkedIn</p></a
+        >
+        } @if(userProfile.data().vimeo_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().vimeo_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapVimeo"
+            size="20"
+          ></ng-icon>
+          <p>Vimeo</p></a
+        >}
+      </div>
+    </div>
+    } @else {
+    <div
+      class="flex flex-col items-start text-nowrap h-fit content-center gap-4 text-sm font-LotaGrotesque font-normal text-gray-500"
+    >
+      <p class="font-IBMPlexMono font-medium text-base text-black">Social</p>
+      @if(userProfile.data().personal_website_url) {
+      <a
+        href="{{ userProfile.data().personal_website_url }}"
+        class="inline-flex gap-2 items-center"
+        ><ng-icon
+          class="text-black text-base"
+          name="octFeedPerson"
+          size="20"
+        ></ng-icon>
+        <p>
+          {{ userProfile.data().personal_website_url }}
+        </p></a
+      >
+      } @if(userProfile.data().twitter_url) {
+      <a
+        href="{{ userProfile.data().twitter_url }}"
+        class="inline-flex gap-2 items-center"
+        ><ng-icon
+          class="text-black text-base"
+          name="bootstrapTwitter"
+          size="20"
+        ></ng-icon>
+        <p>Twitter</p></a
+      >
+      } @if(userProfile.data().facebook_url) {
+      <a
+        class="inline-flex gap-2 items-center"
+        href="{{ userProfile.data().facebook_url }}"
+        ><ng-icon
+          class="text-black text-base"
+          name="bootstrapFacebook"
+          size="20"
+        ></ng-icon>
+        <p>Facebook</p></a
+      >
+      } @if(userProfile.data().instagram_url) {
+      <a
+        class="inline-flex gap-2 items-center"
+        href="{{ userProfile.data().instagram_url }}"
+        ><ng-icon
+          class="text-black text-base"
+          name="bootstrapInstagram"
+          size="20"
+        ></ng-icon>
+        <p>Instagram</p></a
+      >
+      } @if(userProfile.data().github_url) {
+      <a
+        class="inline-flex gap-2 items-center"
+        href="{{ userProfile.data().github_url }}"
+        ><ng-icon
+          class="text-black text-base"
+          name="bootstrapGithub"
+          size="20"
+        ></ng-icon>
+        <p>GitHub</p></a
+      >
+      } @if(userProfile.data().behance_url) {
+      <a
+        class="inline-flex gap-2 items-center"
+        href="{{ userProfile.data().behance_url }}"
+        ><ng-icon
+          class="text-black text-base"
+          name="bootstrapBehance"
+          size="20"
+        ></ng-icon>
+        <p>Behance</p></a
+      >
+      } @if(userProfile.data().linkedIn_url) {
+      <a
+        class="inline-flex gap-2 items-center"
+        href="{{ userProfile.data().linkedIn_url }}"
+        ><ng-icon
+          class="text-black text-base"
+          name="bootstrapLinkedin"
+          size="20"
+        ></ng-icon>
+        <p>LinkedIn</p></a
+      >
+      } @if(userProfile.data().vimeo_url) {
+      <a
+        class="inline-flex gap-2 items-center"
+        href="{{ userProfile.data().vimeo_url }}"
+        ><ng-icon
+          class="text-black text-base"
+          name="bootstrapVimeo"
+          size="20"
+        ></ng-icon>
+        <p>Vimeo</p></a
+      >}
+    </div>
+    }
+  </div>
+  }
+</section>

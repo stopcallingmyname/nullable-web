@@ -1,0 +1,140 @@
+<p-toast></p-toast>
+<lr-config
+  ctx-name="profile-img-uploader"
+  pubkey="b01621af943855bada8a"
+  max-local-file-size-bytes="10000000"
+  multiple="false"
+  img-only="true"
+  source-list="local, url, camera"
+  removeCopyright="true"
+  use-cloud-image-editor="false"
+></lr-config>
+
+<lr-upload-ctx-provider
+  ctx-name="profile-img-uploader"
+  #ctxProvider
+></lr-upload-ctx-provider>
+
+<section
+  class="h-fit flex flex-col gap-5 items-center content-center flex-grow"
+>
+  @if (currentProfile.isError()) {
+  <h1>Error</h1>
+  } @else if (currentProfile.isPending()) {
+  <h1>Loading</h1>
+  } @else {
+  <div
+    class="flex flex-row gap-6 items-center content-center justify-start w-full"
+  >
+    <div class="size-20">
+      <img
+        class="w-full h-full object-cover rounded-full"
+        src="{{ currentProfile.data()?.avatar_url }}"
+        alt=""
+        onerror="this.src = `https://cdn.dribbble.com/users/2125326/screenshots/5983063/media/e1a717a9c3c683ce0f3ab85eec7db184.png?resize=1200x900&vertical=center`"
+      />
+    </div>
+    <div class="flex flex-row items-center content-center gap-4">
+      <lr-file-uploader-regular
+        css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.35.2/web/lr-file-uploader-regular.min.css"
+        ctx-name="profile-img-uploader"
+        class="uploader-config"
+      >
+      </lr-file-uploader-regular>
+      <button
+        class="font-LotaGrotesque w-fit ring-1 text-black ring-gray-100 bg-gray-100 hover:bg-gray-200 focus:bg-gray-200 font-semibold rounded-full text-sm px-5 py-2.5 transition-all duration-200 ease-in-out"
+        (click)="this.deleteProfileAvatar()"
+      >
+        Delete
+      </button>
+    </div>
+  </div>
+  <div class="flex flex-col items-start w-full content-start">
+    <form
+      [formGroup]="updateCurrentProfileDataForm"
+      (ngSubmit)="onSubmitUpdateCurrentProfile()"
+      class="flex flex-col gap-4 xs:gap-6 w-full"
+    >
+      <fieldset class="flex flex-col gap-2 w-full">
+        <label
+          class="font-LotaGrotesque font-medium text-md text-black"
+          for="identifier"
+          >Name</label
+        >
+        <input
+          id="name"
+          formControlName="full_name"
+          class="ring-[1.5px] ring-[#e7e7e9] hover:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] focus:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] font-IBMPlexMono font-normal leading-6 xs:leading-7 text-xs xs:text-sm w-full h-fit rounded-lg xs:rounded-xl px-4 xs:px-5 py-2 xs:py-2 transition-all duration-200 ease-in-out"
+          type="text"
+          ngModel="{{ currentProfile.data()?.full_name }}"
+        />
+
+        <p class="font-LotaGrotesque text-sm font-normal text-gray-400">
+          We’re big on real names around here, so people know who’s who.
+        </p>
+      </fieldset>
+      <fieldset class="flex flex-col gap-2 w-full">
+        <label
+          class="font-LotaGrotesque font-medium text-md text-black"
+          for="identifier"
+          >Location</label
+        >
+        <input
+          formControlName="location"
+          class="ring-[1.5px] ring-[#e7e7e9] hover:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] focus:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] font-IBMPlexMono font-normal leading-6 xs:leading-7 text-xs xs:text-sm w-full h-fit rounded-lg xs:rounded-xl px-4 xs:px-5 py-2 xs:py-2 transition-all duration-200 ease-in-out"
+          type="text"
+          ngModel="{{ currentProfile.data()?.location }}"
+        />
+      </fieldset>
+      <fieldset class="flex flex-col gap-2 w-full">
+        <nb-textarea
+          id="bio"
+          label="Bio"
+          limit="1024"
+          formControlName="bio"
+          [modelValue]="currentProfile.data()?.bio"
+        >
+          ></nb-textarea
+        >
+        <p class="font-LotaGrotesque text-sm font-normal text-gray-400">
+          Brief description for your profile.
+        </p>
+      </fieldset>
+
+      <div class="mt-11 mb-2.5 flex flex-col gap-3">
+        <p class="font-LotaGrotesque font-semibold text-sm text-gray-500">
+          ONLINE PRESENCE
+        </p>
+        <div class="border-t-[1px] border-solid border-gray-300 w-full"></div>
+      </div>
+
+      <fieldset class="flex flex-col gap-2 w-full">
+        <label
+          class="font-LotaGrotesque font-medium text-md text-black"
+          for="personal_website_url"
+          >Personal website</label
+        >
+        <input
+          formControlName="personal_website_url"
+          class="ring-[1.5px] ring-[#e7e7e9] hover:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] focus:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] font-IBMPlexMono font-normal leading-6 xs:leading-7 text-xs xs:text-sm w-full h-fit rounded-lg xs:rounded-xl px-4 xs:px-5 py-2 xs:py-2 transition-all duration-200 ease-in-out"
+          type="text"
+          ngModel="{{ currentProfile.data()?.personal_website_url }}"
+        />
+
+        <p class="font-LotaGrotesque text-sm font-normal text-gray-400">
+          Your home page, blog, or company site.
+        </p>
+      </fieldset>
+
+      <div class="w-full">
+        <button
+          type="submit"
+          class="float-right font-LotaGrotesque w-fit ring-1 text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 rounded-full text-sm px-6 py-3 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 font-semibold transition-all duration-200 ease-in-out"
+        >
+          Save Profile
+        </button>
+      </div>
+    </form>
+  </div>
+  }
+</section>

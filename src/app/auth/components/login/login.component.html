@@ -1,0 +1,107 @@
+<p-toast position="top-right"></p-toast>
+<video
+  class="hidden md:block h-full w-full object-cover absolute"
+  muted
+  loop
+  playsinline
+  autoplay
+  src="https://cdn.dribbble.com/users/721278/screenshots/15588880/media/4550552adbb9c60edfa0c93ed493f063.mp4"
+></video>
+<!-- <img class="h-full w-full object-cover absolute" src="" alt="" /> -->
+<section
+  class="flex flex-col md:grid md:grid-cols-2 items-center justify-center md:justify-items-center w-full h-screen bg-pink-100"
+>
+  <div
+    class="flex flex-col items-center rounded-2xl xs:rounded-3xl p-4 xs:px-10 xs:py-12 bg-white opacity-80 gap-7 xs:gap-9 w-fit"
+  >
+    <div class="flex flex-col w-full gap-2 xs:gap-4">
+      <div
+        class="flex flex-row w-full content-between items-center justify-between"
+      >
+        <a
+          routerLink="/"
+          class="font-LotaGrotesque text-lg font-semibold xs:text-xl hover:opacity-90 transition-opacity ease-in-out"
+        >
+          <span class="text-red-600 text-xl">.</span>Nullable
+        </a>
+        <a
+          class="text-blue-600 font-LotaGrotesque font-medium text-xs grid text-end"
+          routerLink="/signup"
+        >
+          <span>No account?</span>
+          <span>Sign up</span>
+        </a>
+      </div>
+      <h1 class="text-4xl xs:text-5xl font-bold font-LotaGrotesque">Sign in</h1>
+    </div>
+
+    <div class="flex flex-col items-start w-full content-start">
+      <form
+        [formGroup]="loginForm"
+        (ngSubmit)="onSubmitLogin()"
+        class="flex flex-col gap-4 xs:gap-6 w-full"
+      >
+        <fieldset class="flex flex-col gap-2 w-full">
+          <label
+            class="font-IBMPlexMono font-semibold text-sm text-gray-500 flex flex-row items-center gap-2"
+            for="identifier"
+            ><span>Username or Email</span>
+            @if (formControls['identifier'].invalid && (isFormSubmitted ||
+            formControls['identifier'].touched ||
+            formControls['identifier'].dirty)) { @if
+            (formControls['identifier'].errors?.['required']) {
+            <ng-icon
+              class="text-red-400"
+              name="octAlertFill"
+              pTooltip="Username or Email can't be blank"
+              tooltipPosition="right"
+              fitContent="true"
+              autoHide="false"
+              positionLeft="8"
+            ></ng-icon>
+            } }
+          </label>
+          <input
+            formControlName="identifier"
+            class="ring-[1.5px] ring-[#e7e7e9] hover:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] focus:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] font-IBMPlexMono font-normal leading-6 xs:leading-7 text-base xs:text-lg w-fit h-fit rounded-lg xs:rounded-xl px-4 xs:px-5 py-2 xs:py-3 transition-all duration-200 ease-in-out"
+            type="text"
+          />
+        </fieldset>
+        <fieldset class="flex flex-col gap-2 w-full">
+          <label
+            class="font-IBMPlexMono font-semibold text-sm text-gray-500 flex flex-row items-center gap-2"
+            for="password"
+            ><span>Password</span>
+            @if (formControls['password'].invalid && (isFormSubmitted ||
+            formControls['password'].touched || formControls['password'].dirty))
+            { @if (formControls['password'].errors?.['required']) {
+            <ng-icon
+              class="text-red-400"
+              name="octAlertFill"
+              pTooltip="Password can't be blank"
+              tooltipPosition="left"
+              fitContent="true"
+              autoHide="false"
+              positionLeft="-8"
+            ></ng-icon>
+            } }
+          </label>
+          <input
+            formControlName="password"
+            class="bg-white ring-[1.5px] ring-[#e7e7e9] hover:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] focus:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] font-IBMPlexMono font-normal leading-6 xs:leading-7 text-base xs:text-lg w-fit h-fit rounded-lg xs:rounded-xl px-4 xs:px-5 py-2 xs:py-3 transition-all duration-200 ease-in-out"
+            type="password"
+          />
+        </fieldset>
+        <div class="flex flex-row gap-4 items-center content-center">
+          <button
+            type="submit"
+            class="font-LotaGrotesque font-semibold w-fit text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 rounded-lg text-xs px-10 py-3 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 transition-all duration-200 ease-in-out"
+          >
+            Sign In
+          </button>
+          <div #googleBtnDiv id="google-btn-div"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>

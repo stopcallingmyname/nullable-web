@@ -1,0 +1,149 @@
+<p-toast></p-toast>
+
+<section class="w-full">
+  @if (userProfile.isError()) {
+  <h1>Error</h1>
+  } @else if (userProfile.isPending()) { } @else if (userProfile.isSuccess()){
+  @if (userProjects.isError()) {
+  <h1>Error</h1>
+  } @else if (userProjects.isPending()) { } @else if (userProjects.isSuccess()){
+  @if (userProjects.data() && userProjects.data()!.length > 0) {
+  <ul class="relative grid grid-cols-3 gap-12">
+    @for (project of userProjects.data(); track $index) {
+    <li class="translate-x-0 translate-y-0 translate-z-0">
+      <div
+        class="relative h-0 pb-[75%] overflow-hidden rounded-lg"
+        [routerLink]="['/shots', project.id]"
+        (click)="onProjectClicked($event)"
+      >
+        <figure
+          class="m-0 overflow-hidden absolute top-0 right-0 left-0 bottom-0 before:conent-[''] before:block"
+        >
+          <img
+            src="{{ project.preview_url }}"
+            alt=""
+            class="w-full h-full object-cover"
+          />
+        </figure>
+        <div
+          class="flex z-20 items-end p-5 rounded-lg opacity-0 hover:opacity-100 content-[''] absolute top-0 right-0 left-0 bottom-0 bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.44)] transition-all ease-in-out duration-300"
+        >
+          <div class="flex flex-1 items-center justify-between min-w-0">
+            <p
+              class="text-white text-nowrap font-LotaGrotesque text-base text-shadow-md"
+            >
+              {{ project.title }}
+            </p>
+
+            <div
+              id="like_div"
+              class="p-3 rounded-full text-center shadow-lg"
+              [ngClass]="project.isLiked ? 'bg-[#ffe9fc]' : 'bg-white'"
+              (click)="onLikeProject($event, project)"
+            >
+              @if (project.isLiked) {
+              <ng-icon
+                name="octHeartFill"
+                [style]="{ display: 'flex' }"
+                class="text-bnPink animate-jump cursor-pointer transition-all ease-in-out duration-200"
+                (click)="onLikeProject($event, project)"
+              ></ng-icon>
+              } @else {
+              <ng-icon
+                class="text-black cursor-pointer hover:text-gray-500 transition-all ease-in-out duration-200"
+                [style]="{ display: 'flex' }"
+                name="ionHeartOutline"
+                strokeWidth="45px"
+              ></ng-icon>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      @if (userProfile.data().isCurrent) {
+      <ul class="flex flex-1 justify-end mt-2">
+        <span
+          class="flex flex-row gap-2 items-center content-center justify-end w-full"
+          ><p
+            class="flex flex-row gap-1 items-center content-center text-xs font-medium text-gray-600"
+          >
+            <ng-icon
+              name="octHeartFill"
+              size="13"
+              class="hover:text-bnPink cursor-pointer transition-all ease-in-out duration-200"
+              [ngClass]="
+                project.isLiked ? 'text-bnPink animate-jump' : 'text-gray-400'
+              "
+              (click)="onLikeProject($event, project)"
+            ></ng-icon
+            >{{ project.likes }}
+          </p>
+          <p
+            class="flex flex-row gap-1 items-center content-center text-xs font-medium text-gray-600"
+          >
+            <ng-icon name="ionEye" size="16" class="text-gray-400"></ng-icon
+            >{{ project.views }}
+          </p></span
+        >
+      </ul>
+      }
+    </li>
+    }
+  </ul>
+  } @else { @if (userProfile.data().isCurrent) {
+  <ul class="grid grid-cols-12 gap-12">
+    <li
+      class="cursor-pointer border-2 rounded-lg border-dashed border-gray-150 col-span-4 relative overflow-hidden before:content-[''] before:block before:pt-[75%]"
+    >
+      <div
+        class="top-1/2 absolute right-0 left-0 translate-y-[-50%] text-center"
+      >
+        <div class="flex flex-col items-center">
+          <h2 class="font-LotaGrotesque font-bold text-2xl mb-2">
+            Upload your first shot
+          </h2>
+          <div class="w-4/5 max-w-[340px] flex flex-col items-center">
+            <p class="mb-[5%] text-base font-light font-LotaGrotesque">
+              Show off your best work. Get feedback, likes and be a part of a
+              growing community.
+            </p>
+            <button
+              type="submit"
+              class="float-right font-LotaGrotesque w-fit ring-1 text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 rounded-full text-sm px-5 py-3 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 font-semibold transition-all duration-200 ease-in-out"
+              routerLink="/uploads/new"
+            >
+              Upload your first shot
+            </button>
+          </div>
+        </div>
+      </div>
+    </li>
+    <li
+      class="bg-gradient-to-b from-[rgba(0,0,0,0.03)] to-[rgba(0,0,0,0)] col-span-4 relative overflow-hidden before:content-[''] before:block before:pt-[75%]"
+    ></li>
+    <li
+      class="bg-gradient-to-b from-[rgba(0,0,0,0.03)] to-[rgba(0,0,0,0)] col-span-4 relative overflow-hidden before:content-[''] before:block before:pt-[75%]"
+    ></li>
+    <li
+      class="bg-gradient-to-b from-[rgba(0,0,0,0.03)] to-[rgba(0,0,0,0)] col-span-4 relative overflow-hidden before:content-[''] before:block before:pt-[75%]"
+    ></li>
+    <li
+      class="bg-gradient-to-b from-[rgba(0,0,0,0.03)] to-[rgba(0,0,0,0)] col-span-4 relative overflow-hidden before:content-[''] before:block before:pt-[75%]"
+    ></li>
+    <li
+      class="bg-gradient-to-b from-[rgba(0,0,0,0.03)] to-[rgba(0,0,0,0)] col-span-4 relative overflow-hidden before:content-[''] before:block before:pt-[75%]"
+    ></li>
+  </ul>
+  } @else {
+  <div class="text-center">
+    <p class="font-IBMPlexMono font-medium text-xl">No shots :(</p>
+    <p class="mt-2 font-LotaGrotesque font-normal text-gray-400 text-base">
+      It looks like {{ userProfile.data()?.full_name }} hasn’t uploaded any
+      shots yet.
+    </p>
+    <p class="mt-2 font-LotaGrotesque font-normal text-gray-400 text-base">
+      Check back soon!
+    </p>
+  </div>
+  } } } }
+</section>

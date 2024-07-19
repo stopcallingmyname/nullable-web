@@ -1,0 +1,99 @@
+<p-toast></p-toast>
+
+<section
+  class="h-fit flex flex-col gap-5 items-center content-center flex-grow"
+>
+  @if (currentUser.isError()) {
+  <h1>Error</h1>
+  } @else if (currentUser.isPending()) {
+  <h1>Loading</h1>
+  } @else {
+  <div class="flex flex-col items-start w-full content-start">
+    <form
+      [formGroup]="updateUserDataForm"
+      (ngSubmit)="onSubmitUpdateCurrentUser()"
+      class="flex flex-col gap-4 xs:gap-6 w-full"
+    >
+      <fieldset class="flex flex-col gap-2 w-full">
+        <label
+          class="font-LotaGrotesque font-medium text-md text-black flex flex-row justify-between"
+          for="identifier"
+          ><span
+            >Username<span class="text-red-300 font-LotaGrotesque ml-0.5"
+              >*</span
+            ></span
+          >
+          @if (formControls['username'].invalid && (isFormSubmitted ||
+          formControls['username'].touched || formControls['username'].dirty)) {
+          @if (formControls['username'].errors?.['required']) {
+          <p class="font-LotaGrotesque text-sm font-normal text-red-400">
+            Username can't be blank
+          </p>
+          } @else if (formControls['username'].errors?.['pattern']){
+          <p class="font-LotaGrotesque text-sm font-normal text-red-400">
+            Username may only contain A-Z, 0-9, underscores, and dashes
+          </p>
+          } @else if (formControls['username'].errors?.['minlength']) {
+          <p class="font-LotaGrotesque text-sm font-normal text-red-400">
+            Username is too short (minimum is 2 characters)
+          </p>
+          } @else if (formControls['username'].errors?.['maxlength']) {
+          <p class="font-LotaGrotesque text-sm font-normal text-red-400">
+            Username is too long (maximum is 30 characters)
+          </p>
+          }}
+        </label>
+
+        <input
+          formControlName="username"
+          class="ring-[1.5px] ring-[#e7e7e9] hover:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] focus:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] font-IBMPlexMono font-normal leading-6 xs:leading-7 text-xs xs:text-sm w-full h-fit rounded-lg xs:rounded-xl px-4 xs:px-5 py-2 xs:py-2 transition-all duration-200 ease-in-out"
+          type="text"
+          ngModel="{{ currentUser.data()?.username }}"
+        />
+
+        <p class="font-LotaGrotesque text-sm font-normal text-gray-400">
+          We’re big on real names around here, so people know who’s who.
+        </p>
+      </fieldset>
+      <fieldset class="flex flex-col gap-2 w-full">
+        <label
+          class="font-LotaGrotesque font-medium text-md text-black flex flex-row justify-between"
+          for="identifier"
+          ><span
+            >Email<span class="text-red-300 font-LotaGrotesque ml-0.5"
+              >*</span
+            ></span
+          >
+          @if (formControls['email'].invalid && (isFormSubmitted ||
+          formControls['email'].touched || formControls['email'].dirty)) { @if
+          (formControls['email'].errors?.['required']) {
+          <p class="font-LotaGrotesque text-sm font-normal text-red-400">
+            Email can't be blank
+          </p>
+          } @else if (formControls['email'].errors?.['email'] ||
+          formControls['email'].errors?.['pattern']) {
+          <p class="font-LotaGrotesque text-sm font-normal text-red-400">
+            Email must be a valid email address
+          </p>
+          } }
+        </label>
+        <input
+          formControlName="email"
+          class="ring-[1.5px] ring-[#e7e7e9] hover:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] focus:shadow-[0_0_0_6px_rgba(234,100,217,0.1)] font-IBMPlexMono font-normal leading-6 xs:leading-7 text-xs xs:text-sm w-full h-fit rounded-lg xs:rounded-xl px-4 xs:px-5 py-2 xs:py-2 transition-all duration-200 ease-in-out"
+          type="text"
+          ngModel="{{ currentUser.data()?.email }}"
+        />
+      </fieldset>
+
+      <div class="w-full">
+        <button
+          type="submit"
+          class="float-right font-LotaGrotesque w-fit ring-1 text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 rounded-full text-sm px-6 py-3 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 font-semibold transition-all duration-200 ease-in-out"
+        >
+          Save Changes
+        </button>
+      </div>
+    </form>
+  </div>
+  }
+</section>

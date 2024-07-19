@@ -1,0 +1,70 @@
+<section class="h-fit flex flex-col mt-16 mx-48 gap-9">
+  @if (currentProfile.isError()) {
+  <h1>Error</h1>
+  } @else if (currentProfile.isPending()) { loading.. } @else {
+  <div class="flex flex-row items-center gap-6">
+    <div class="size-12">
+      <img
+        class="w-full h-full object-cover rounded-full"
+        src="{{ currentProfile.data()?.avatar_url }}"
+        alt=""
+        onerror="this.src = `https://cdn.dribbble.com/users/2125326/screenshots/5983063/media/e1a717a9c3c683ce0f3ab85eec7db184.png?resize=1200x900&vertical=center`"
+      />
+    </div>
+    <div class="h-fit flex flex-col gap-1">
+      <h1 class="font-LotaGrotesque font-medium text-xl">
+        @if (currentUser.isError()) {
+        <h1>Error..</h1>
+        } @else if (currentUser.isPending()) { Loading.. } @else { @if
+        (currentProfile.data()?.full_name) {
+        <span
+          routerLink="/{{ currentUser.data()!.username }}"
+          class="cursor-pointer hover:opacity-80 transition-opacity duration-200 ease-in-out"
+          >{{ currentProfile.data()?.full_name }}
+        </span>
+        } @else {
+        <span
+          routerLink="/{{ currentUser.data()!.username }}"
+          class="cursor-pointer hover:opacity-80 transition-opacity duration-200 ease-in-out"
+          >{{ currentUser.data()!.username }}
+        </span>
+        } }
+
+        <span class="font-IBMPlexMono font-medium text-gray-200">/</span>
+        {{ selectedTab }}
+      </h1>
+      <h2 class="font-LotaGrotesque font-light text-sm text-gray-400">
+        Set up your Nullable presence and hiring needs
+      </h2>
+    </div>
+  </div>
+  }
+  <div class="flex flex-row gap-28">
+    <div class="flex flex-col gap-4">
+      <ul class="flex flex-col gap-2">
+        @for (tab of accountTabs; track $index) {
+        <li
+          (click)="onTabSelected(tab)"
+          class=" hover:text-black font-LotaGrotesque {{
+            selectedTab === tab
+              ? 'font-semibold text-black'
+              : 'font-light text-gray-500'
+          }} transition-all duration-200 ease-in-out cursor-pointer"
+        >
+          {{ tab }}
+        </li>
+        }
+      </ul>
+      <div class="border-t-[1px] border-solid border-gray-300 w-full"></div>
+      <p
+        routerLink="/account/deletion-confirmation"
+        class="font-LotaGrotesque font-light text-red-500 hover:text-red-400 cursor-pointer transition-all duration-200 ease-in-out"
+      >
+        Delete Account
+      </p>
+    </div>
+    <div class="flex-grow">
+      <router-outlet class="hidden"></router-outlet>
+    </div>
+  </div>
+</section>
