@@ -1,18 +1,34 @@
-@layer tailwind-base, primeng, tailwind-utilities;
+// @layer tailwind-base, primeng, tailwind-utilities;
+
+// @layer tailwind-base {
+//   @tailwind base;
+// }
+
+// @layer tailwind-utilities {
+//   @tailwind components;
+//   @tailwind utilities;
+// }
+
+// @layer primeng {
+//   @import 'primeng/resources/themes/aura-light-pink/theme.css';
+//   @import 'primeng/resources/primeng.css';
+//   @import 'primeicons/primeicons.css';
+// }
+
+@import 'primeng/resources/themes/aura-light-pink/theme.css';
+@import 'primeng/resources/primeng.css';
+@import 'primeicons/primeicons.css';
 
 @layer tailwind-base {
   @tailwind base;
 }
 
-@layer tailwind-utilities {
+@layer tailwind-components {
   @tailwind components;
-  @tailwind utilities;
 }
 
-@layer primeng {
-  @import 'primeng/resources/themes/aura-light-pink/theme.css';
-  @import 'primeng/resources/primeng.css';
-  @import 'primeicons/primeicons.css';
+@layer tailwind-utilities {
+  @tailwind utilities;
 }
 
 ::selection {
