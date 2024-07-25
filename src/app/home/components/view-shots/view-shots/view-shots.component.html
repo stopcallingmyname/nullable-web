@@ -1,0 +1,118 @@
+<p-toast></p-toast>
+
+<section class="w-full h-full px-[72px]">
+  @if (projects == null || projects.length <= 0) {
+  <div class="flex flex-row gap-4 items-center content-center py-8 px-[74px]">
+    <div class="size-96">
+      <img
+        class="object-cover w-full h-full"
+        src="https://cdn.dribbble.com/users/453325/screenshots/5573953/empty_state.png"
+        alt=""
+      />
+    </div>
+    <h1
+      class="w-full h-fit text-center text-3xl font-IBMPlexMono text-pretty max-w-[450px]"
+    >
+      We couldn’t surprise you now, but we will definitely try not to delay it
+      :)
+    </h1>
+  </div>
+  } @else {
+
+  <ul class="relative grid grid-cols-3 gap-12 mb-[150px]">
+    @for (project of limitedProjects; track $index) {
+    <li class="translate-x-0 translate-y-0 translate-z-0">
+      <div
+        class="relative h-0 pb-[75%] overflow-hidden rounded-lg"
+        [routerLink]="['/shots', project.id]"
+        (click)="onProjectClicked($event)"
+      >
+        <figure
+          class="m-0 overflow-hidden absolute top-0 right-0 left-0 bottom-0 before:conent-[''] before:block"
+        >
+          <img
+            src="{{ project.preview_url }}"
+            alt=""
+            class="w-full h-full object-cover"
+          />
+        </figure>
+        <div
+          class="flex z-20 items-end p-5 rounded-lg opacity-0 hover:opacity-100 content-[''] absolute top-0 right-0 left-0 bottom-0 bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.44)] transition-all ease-in-out duration-300"
+        >
+          <div class="flex flex-1 items-center justify-between min-w-0">
+            <p
+              class="text-white text-nowrap font-LotaGrotesque text-base text-shadow-md"
+            >
+              {{ project.title }}
+            </p>
+
+            <div
+              id="like_div"
+              class="p-3 rounded-full text-center shadow-lg"
+              [ngClass]="project.isLiked ? 'bg-[#ffe9fc]' : 'bg-white'"
+              (click)="onLikeProject($event, project)"
+            >
+              @if (project.isLiked) {
+              <ng-icon
+                name="octHeartFill"
+                [style]="{ display: 'flex' }"
+                class="text-bnPink animate-jump cursor-pointer transition-all ease-in-out duration-200"
+                (click)="onLikeProject($event, project)"
+              ></ng-icon>
+              } @else {
+              <ng-icon
+                class="text-black cursor-pointer hover:text-gray-500 transition-all ease-in-out duration-200"
+                [style]="{ display: 'flex' }"
+                name="ionHeartOutline"
+                strokeWidth="45px"
+              ></ng-icon>
+              }
+            </div>
+          </div>
+        </div>
+      </div>
+      <ul class="flex flex-1 justify-between mt-2">
+        <span class="w-full inline-flex gap-2 items-center"
+          ><div class="size-6">
+            <img
+              class="w-full h-full object-cover rounded-full cursor-pointer"
+              src="{{ project.creator.avatar_url }}"
+              alt=""
+              onerror="this.src = `https://cdn.dribbble.com/users/2125326/screenshots/5983063/media/e1a717a9c3c683ce0f3ab85eec7db184.png?resize=1200x900&vertical=center`"
+            />
+          </div>
+          <p
+            class="text-black text-sm font-LotaGrotesque font-medium overflow-ellipsis leading-5"
+          >
+            {{ project.creator.full_name }}
+          </p></span
+        >
+        <span
+          class="flex flex-row gap-2 items-center content-center justify-end w-full"
+          ><p
+            class="flex flex-row gap-1 items-center content-center text-xs font-medium text-gray-600"
+          >
+            <ng-icon
+              name="octHeartFill"
+              size="13"
+              class="hover:text-bnPink cursor-pointer transition-all ease-in-out duration-200"
+              [ngClass]="
+                project.isLiked ? 'text-bnPink animate-jump' : 'text-gray-400'
+              "
+              (click)="onLikeProject($event, project)"
+            ></ng-icon
+            >{{ project.likes }}
+          </p>
+          <p
+            class="flex flex-row gap-1 items-center content-center text-xs font-medium text-gray-600"
+          >
+            <ng-icon name="ionEye" size="16" class="text-gray-400"></ng-icon
+            >{{ project.views }}
+          </p></span
+        >
+      </ul>
+    </li>
+    }
+  </ul>
+  }
+</section>

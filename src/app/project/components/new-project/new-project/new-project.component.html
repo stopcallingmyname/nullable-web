@@ -1,0 +1,199 @@
+<p-toast></p-toast>
+<!-- <lr-config
+  ctx-name="profile-img-uploader"
+  pubkey="b01621af943855bada8a"
+  max-local-file-size-bytes="10000000"
+  multiple="true"
+  img-only="false"
+  source-list="local"
+  removeCopyright="true"
+  use-cloud-image-editor="false"
+></lr-config>
+
+<lr-upload-ctx-provider
+  ctx-name="profile-img-uploader"
+  #ctxProvider
+></lr-upload-ctx-provider> -->
+
+@if (currentUser.isSuccess()) {
+<section class="flex flex-row h-24 w-full items-center justify-between px-10">
+  <button
+    routerLink="/{{ currentUser.data().username }}"
+    class="font-LotaGrotesque w-fit ring-1 ring-gray-300 hover:ring-gray-400 focus:ring-gray-400 font-semibold rounded-full text-sm px-5 py-2 transition-all duration-200 ease-in-out"
+  >
+    Cancel
+  </button>
+
+  <button
+    class="disabled:cursor-not-allowed font-IBMPlexMono w-fit text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-xs px-5 py-3 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 transition-all duration-200 ease-in-out"
+    (click)="toggleFinalTouchesDialog()"
+    [disabled]="!selectedFile || !projectForm.get('title')?.value"
+  >
+    Continue
+  </button>
+  <!-- <button
+    class="disabled:cursor-not-allowed font-IBMPlexMono w-fit text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-xs px-5 py-3 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 transition-all duration-200 ease-in-out"
+    (click)="toggleFinalTouchesDialog()"
+  >
+    toggle
+  </button> -->
+</section>
+} @if (userProfile.isError()) {
+<h1>Error</h1>
+} @else if (userProfile.isPending()) { } @else if (userProfile.isSuccess()){
+<section class="w-full flex flex-col gap-12 items-center">
+  <!-- <nb-file-upload></nb-file-upload> -->
+  <!-- <lr-file-uploader-inline
+    css-src="https://cdn.jsdelivr.net/npm/@uploadcare/blocks@0.35.2/web/lr-file-uploader-regular.min.css"
+    ctx-name="profile-img-uploader"
+    class="uploader-config2 w-full px-36"
+  >
+  </lr-file-uploader-inline> -->
+
+  @if (!previewUrl) {
+  <h2 class="font-IBMPlexMono font-bold text-3xl">
+    What have you been working on?
+  </h2>
+  <input
+    type="file"
+    formControlName="preview_img"
+    (change)="onFileSelected($event)"
+  />
+  } @else {
+  <form
+    [formGroup]="projectForm"
+    class="w-full flex flex-col items-center content-center gap-6 px-32"
+  >
+    <input
+      type="text"
+      formControlName="title"
+      placeholder="Give me a name"
+      class="text-4xl font-LotaGrotesque font-bold text-start w-full px-44"
+    />
+    <img
+      [src]="previewUrl"
+      alt="Preview Image"
+      class="w-full rounded-lg object-cover aspect-auto"
+    />
+    <textarea
+      formControlName="description"
+      placeholder="Description"
+      class="project-description-input"
+    ></textarea>
+
+    <p-dialog
+      header="Header"
+      [modal]="true"
+      [(visible)]="isFinalTouchesVisible"
+      [style]="{ width: '56rem' }"
+      [draggable]="false"
+      [closable]="false"
+      [closeOnEscape]="true"
+      [dismissableMask]="true"
+    >
+      <ng-template pTemplate="header"
+        ><div class="flex flex-row w-full tems-start content-center pt-6 px-6">
+          <p class="text-black font-LotaGrotesque text-2xl font-bold">
+            Final Touches
+          </p>
+        </div></ng-template
+      >
+      <div class="grid grid-cols-[auto_1fr] justify-between gap-4 pb-6 px-6">
+        <div class="mr-8 flex flex-col gap-2 min-w-[250px] max-w-[250px]">
+          <p class="font-LotaGrotesque text-sm text-black font-medium">
+            Thumbnail preview
+          </p>
+          <div class="flex flex-col items-center content-center gap-2">
+            <div
+              class="overflow-hidden rounded-lg w-full min-h-[180px] max-h-[180px]"
+            >
+              <img
+                [src]="previewUrl"
+                alt="Thumbnail Preview Image"
+                class="w-full h-full rounded-lg object-cover object-center"
+              />
+            </div>
+            <span
+              class="flex flex-row gap-2 items-center content-center justify-end w-full"
+              ><p
+                class="flex flex-row gap-1 items-center content-center text-xs font-medium text-gray-600"
+              >
+                <ng-icon
+                  name="octHeartFill"
+                  size="13"
+                  class="text-gray-400"
+                ></ng-icon
+                >54
+              </p>
+              <p
+                class="flex flex-row gap-1 items-center content-center text-xs font-medium text-gray-600"
+              >
+                <ng-icon name="ionEye" size="16" class="text-gray-400"></ng-icon
+                >1029
+              </p></span
+            >
+          </div>
+        </div>
+        <div class="flex flex-col flex-1 justify-between w-full">
+          <div class="flex flex-col gap-4 xs:gap-7 w-full">
+            <fieldset class="flex flex-col gap-2 w-full">
+              <label
+                class="inline-flex gap-1 font-IBMPlexMono font-medium text-md text-black"
+                for="tags"
+                >Tags
+                <p class="text-gray-400">(maximum 20)</p></label
+              >
+              <p-chips
+                formControlName="tags"
+                max="16"
+                allowDuplicate="false"
+                addOnBlur="true"
+                addOnTab="true"
+                separator=","
+              />
+
+              <p
+                class="inline-flex gap-1 font-IBMPlexMono text-sm font-medium text-gray-400"
+              >
+                <span class="text-gray-600">Suggested:</span>design,
+                illustration
+              </p>
+            </fieldset>
+            <fieldset class="flex flex-col gap-2 w-full">
+              <label
+                class="inline-flex gap-1 font-IBMPlexMono font-medium text-md text-black"
+                for="tags"
+                >Time Spent
+              </label>
+              <p-inputGroup>
+                <p-inputNumber
+                  inputId="integeronly"
+                  formControlName="timeSpent"
+                />
+                <p-inputGroupAddon>h</p-inputGroupAddon>
+              </p-inputGroup>
+            </fieldset>
+          </div>
+          <div class="flex flex-row justify-end gap-6">
+            <button
+              (click)="toggleFinalTouchesDialog()"
+              class="font-LotaGrotesque w-fit ring-1 ring-gray-300 hover:ring-gray-400 focus:ring-gray-400 font-semibold rounded-full text-sm px-5 py-2 transition-all duration-200 ease-in-out"
+            >
+              Close
+            </button>
+
+            <button
+              type="submit"
+              (click)="onSubmitCreateProject()"
+              class="disabled:cursor-not-allowed font-IBMPlexMono w-fit text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-xs px-5 py-3 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 transition-all duration-200 ease-in-out"
+            >
+              Publish now
+            </button>
+          </div>
+        </div>
+      </div>
+    </p-dialog>
+  </form>
+  }
+</section>
+}

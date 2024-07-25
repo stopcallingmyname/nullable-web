@@ -1,0 +1,26 @@
+<p-toast></p-toast>
+<p-sidebar
+  [(visible)]="isSidebarVisible"
+  position="right"
+  dismissible="false"
+  showCloseIcon="false"
+  modal="false"
+>
+  <button (click)="isSidebarVisible = false">Close</button>
+
+  @if (imageUrl) {
+  <button (click)="onDeleteFile()">Delete</button>
+  }
+</p-sidebar>
+
+<section>
+  <input type="file" (change)="onFileSelected($event)" />
+
+  @if (imageUrl) {
+  <img
+    (click)="isSidebarVisible = true"
+    [src]="imageUrl"
+    alt="Uploaded Image"
+  />
+  }
+</section>

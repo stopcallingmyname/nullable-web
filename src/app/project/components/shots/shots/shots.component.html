@@ -1,0 +1,195 @@
+<ngx-spinner
+  bdColor="rgba(255, 255, 255, 0)"
+  color="rgba(255, 218, 121, .5)"
+  size="medium"
+  type="square-jelly-box"
+  [fullScreen]="true"
+  [showSpinner]="
+    searchProjectsQuery.isPending() || searchProjectsQuery.isRefetching()
+  "
+></ngx-spinner>
+
+@if (currentUser.isSuccess()) {
+<section class="w-full h-full pt-8">
+  <div class="px-[72px]">
+    <div class="flex flex-row items-center">
+      <div class="mr-10">
+        <p-dropdown
+          [options]="pages"
+          [(ngModel)]="selectedPage"
+          optionLabel="key"
+          (onChange)="onPageChange($event)"
+        />
+      </div>
+      <div class="inline-flex gap-4">
+        <!-- @for (tag of allTags.data(); track $index) { @if ($index <9) {
+        <span
+          class="bg-gray-100 text-sm font-IBMPlexMono font-medium px-5 py-2 rounded-full hover:text-gray-500 transition-all animate-ease-out duration-200"
+          (click)="onFilterProjects($event, tag)"
+          >{{ tag.tag_name }}</span
+        >
+        } } -->
+        @if (allTags.isSuccess()) {
+        <p-carousel
+          [value]="allTags.data()"
+          [numVisible]="5"
+          [numScroll]="2"
+          [circular]="false"
+          [responsiveOptions]="undefined"
+          [showIndicators]="false"
+        >
+          <ng-template let-tag pTemplate="item"
+            ><span
+              class="cursor-pointer w-full text-nowrap bg-gray-100 text-sm font-IBMPlexMono font-medium px-5 py-2 rounded-full hover:text-gray-500 transition-all animate-ease-out duration-200"
+              (click)="onFilterProjects($event, tag)"
+              >{{ tag.tag_name }}</span
+            ></ng-template
+          >
+        </p-carousel>
+        }
+      </div>
+    </div>
+  </div>
+  @if (searchProjectsQuery.isLoading()){} @else if
+  (searchProjectsQuery.isSuccess()) {
+  <div class="pt-8 pb-10">
+    <nb-view-shots [projects]="searchProjectsQuery.data()"></nb-view-shots>
+  </div>
+  }
+</section>
+} @else if (currentUser.isError()){
+<div class="flex flex-col items-center content-center pt-20">
+  <div class="flex flex-col items-center content-center">
+    <span
+      class="text-base text-black px-4 py-2 rounded-full font-SourceSerif4 font-semibold animate-badge-color-cycle"
+      ><a routerLink="/signup"
+        >A thriving network of talented creatives!</a
+      ></span
+    >
+    <div class="mt-10 mx-40 mb-6">
+      <h1 class="font-SourceSerif4 text-7xl text-black text-center text-pretty">
+        The world’s destination for design
+      </h1>
+    </div>
+    <div class="flex flex-col items-center content-center gap-8">
+      <p class="text-xl font-LotaGrotesque font-medium">
+        Discover the creativity of top-rated designers & agencies worldwide.
+      </p>
+      <button
+        class="font-IBMPlexMono w-fit text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-6 py-4 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 transition-all duration-200 ease-in-out"
+        routerLink="/signup"
+      >
+        Get started
+      </button>
+    </div>
+  </div>
+</div>
+@if (allProfiles.isSuccess()) {
+<div class="overflow-hidden relative">
+  <div class="inline-flex gap-8 py-[72px] animate-horizontal-scroll">
+    @for(profile of allProfiles.data(); track $index) {
+    <div
+      class="w-[273px] h-[340px] text-white relative rounded-[32px] overflow-hidden"
+    >
+      <div
+        class="z-20 px-4 py-5 grid absolute top-0 right-0 bottom-0 left-0 grid-flow-row auto-rows-min content-end text-[13px] font-semibold font-LotaGrotesque bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.44)]"
+      >
+        <div class="flex w-full leading-tight">{{ profile.full_name }}</div>
+        <ul class="grid auto-cols-min grid-flow-col gap-2 mt-1">
+          @if(profile.skills!.length > 0) { @for (skill of profile.skills; track
+          $index) { @if($index < 3) {
+          <li
+            class="flex flex-row items-center h-6 px-2 py-1 border border-[#ffffff33] rounded-full text-[11px] font-LotaGrotesque"
+          >
+            {{ skill.tag_name }}
+          </li>
+          } } } @else {
+          <span class="h-6"></span>
+          }
+        </ul>
+      </div>
+      <div class="flex relative w-[273px] h-[340px]">
+        <img
+          class="w-full h-full object-cover object-center z-10"
+          src="{{ profile.avatar_url }}"
+          alt=""
+          onerror="this.src = `https://cdn.dribbble.com/users/2125326/screenshots/5983063/media/e1a717a9c3c683ce0f3ab85eec7db184.png?resize=1200x900&vertical=center`"
+        />
+      </div>
+    </div>
+    } @for(profile of allProfiles.data(); track $index) {
+    <div
+      class="w-[273px] h-[340px] text-white relative rounded-[32px] overflow-hidden"
+    >
+      <div
+        class="z-20 px-4 py-5 grid absolute top-0 right-0 bottom-0 left-0 grid-flow-row auto-rows-min content-end text-[13px] font-semibold font-LotaGrotesque bg-gradient-to-b from-[rgba(0,0,0,0)] to-[rgba(0,0,0,0.44)]"
+      >
+        <div class="flex w-full leading-tight">{{ profile.full_name }}</div>
+        <ul class="grid auto-cols-min grid-flow-col gap-2 mt-1">
+          @if(profile.skills!.length > 0) { @for (skill of profile.skills; track
+          $index) { @if($index < 3) {
+          <li
+            class="flex flex-row items-center h-6 px-2 py-1 border border-[#ffffff33] rounded-full text-[11px] font-LotaGrotesque"
+          >
+            {{ skill.tag_name }}
+          </li>
+          } } } @else {
+          <span class="h-6"></span>
+          }
+        </ul>
+      </div>
+      <div class="flex relative w-[273px] h-[340px]">
+        <img
+          class="w-full h-full object-cover object-center z-10"
+          src="{{ profile.avatar_url }}"
+          alt=""
+          onerror="this.src = `https://cdn.dribbble.com/users/2125326/screenshots/5983063/media/e1a717a9c3c683ce0f3ab85eec7db184.png?resize=1200x900&vertical=center`"
+        />
+      </div>
+    </div>
+    }
+  </div>
+</div>
+<div class="flex flex-col gap-12 items-center content-center">
+  <h2 class="font-LotaGrotesque text-5xl text-black font-normal">
+    Explore inspiring designs
+  </h2>
+  @if (allProjects.isSuccess()) {
+  <nb-view-shots
+    [projectsToShow]="currentUser.isSuccess() ? null : 48"
+    [projects]="allProjects.data()"
+    class="w-full h-full"
+  ></nb-view-shots>
+  }
+</div>
+}
+<div class="w-full py-[120px] bg-[#ffda79] text-center">
+  <div class="flex flex-col gap-6 items-center content-center max-w-7xl">
+    <h2
+      class="text-6xl leading-[76px] text-black font-normal font-SourceSerif4 text-pretty max-w-2xl"
+    >
+      Find your next designer today
+    </h2>
+    <span
+      class="font-LotaGrotesque max-w-[600px] font-light text-xl w-full text-pretty leading-9"
+    >
+      The world’s leading brands use .Nullable to hire creative talent. Browse
+      an extensive collection of top-rated portfolios to find your perfect
+      creative match.
+    </span>
+    <div class="pt-4 pb-6">
+      <button
+        class="font-IBMPlexMono w-fit text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-6 py-4 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 transition-all duration-200 ease-in-out"
+        routerLink="/signup"
+      >
+        Get started now
+      </button>
+    </div>
+    <span
+      class="inline-flex gap-1 items-center content-center text-xl font-light font-LotaGrotesque text-black"
+      ><p>Are you a designer?</p>
+      <a class="underline" routerLink="/signup">Join .Nullable</a></span
+    >
+  </div>
+</div>
+}

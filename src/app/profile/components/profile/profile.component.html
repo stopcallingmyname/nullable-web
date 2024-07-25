@@ -1,0 +1,192 @@
+<ngx-spinner
+  bdColor="rgba(255, 255, 255, 0)"
+  color="rgba(255, 218, 121, .5)"
+  size="medium"
+  type="square-jelly-box"
+  name="profileLoading"
+  [fullScreen]="false"
+  [showSpinner]="updateLoadingSpinner()"
+></ngx-spinner>
+<p-toast></p-toast>
+
+<section class="h-full flex flex-col">
+  @if (userProfile.isError()) {
+  <h1>Error</h1>
+  } @else if (userProfile.isPending()) { } @else if (userProfile.isSuccess()){
+  <p-dialog
+    #availableForWorkDialog
+    [modal]="false"
+    position="bottomleft"
+    draggable="false"
+    [(visible)]="userProfile.data()!.open_to_work"
+    [style]="{ marginLeft: '3rem', marginBottom: '2rem' }"
+  >
+    <ng-template pTemplate="headless">
+      <div
+        class="px-10 py-6 w-full h-fit flex flex-col items-start content-center gap-4 relative"
+      >
+        <ng-icon
+          size="24"
+          name="octXCircleFill"
+          [style]="{ display: 'flex', padding: '0' }"
+          class="cursor-pointer text-center absolute top-[-8px] right-[-8px] flex p-1 rounded-full bg-white hover:text-gray-700 transition-all ease-in-out duration-200"
+          (click)="this.hideAvailableForWorkDialog($event)"
+        >
+        </ng-icon>
+        <div class="absolute top-1/2 left-[-22px] mt-[-22px] size-11">
+          <img
+            class="w-full h-full object-cover rounded-full ring-2 ring-white"
+            src="{{ userProfile.data().avatar_url }}"
+            alt=""
+            onerror="this.src = `https://cdn.dribbble.com/users/2125326/screenshots/5983063/media/e1a717a9c3c683ce0f3ab85eec7db184.png?resize=1200x900&vertical=center`"
+          />
+        </div>
+        <div class="inline-flex items-center gap-2">
+          <span class="relative flex h-2 w-2">
+            <span
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+            ></span>
+            <span
+              class="relative inline-flex rounded-full h-2 w-2 bg-green-400"
+            ></span>
+          </span>
+          <p class="font-LotaGrotesque font-medium text-black text-sm">
+            Available for new projects
+          </p>
+        </div>
+      </div>
+    </ng-template></p-dialog
+  >
+  <div
+    class="w-full h-fit flex items-center justify-center content-center py-16"
+  >
+    <div class="flex flex-row gap-6 items-center">
+      <div class="size-32">
+        <img
+          class="w-full h-full object-cover rounded-full ring-4 ring-gray-100"
+          src="{{ userProfile.data().avatar_url }}"
+          alt=""
+          onerror="this.src = `https://cdn.dribbble.com/users/2125326/screenshots/5983063/media/e1a717a9c3c683ce0f3ab85eec7db184.png?resize=1200x900&vertical=center`"
+        />
+      </div>
+      <div class="flex flex-col items-start content-center gap-3 mx-4 my-2">
+        <p class="font-LotaGrotesque font-bold text-4xl">
+          {{ userProfile.data().full_name }}
+        </p>
+        @if (userProfile.data().location) {
+        <p class="font-LotaGrotesque font-extralight text-lg">
+          {{ userProfile.data().location }}
+        </p>
+        }
+        <div class="flex flex-row gap-4">
+          @if (userProfile.data().isCurrent) {
+          <button
+            routerLink="/account"
+            class="font-LotaGrotesque w-fit ring-1 ring-gray-300 hover:ring-gray-400 focus:ring-gray-400 font-semibold rounded-full text-sm px-6 py-3 transition-all duration-200 ease-in-out"
+          >
+            Edit Profile
+          </button>
+          } @else { @if (userProfile.data().isFollowing ){
+          <button
+            (click)="onUnfollow()"
+            class="font-LotaGrotesque w-fit ring-1 ring-gray-300 hover:ring-gray-400 focus:ring-gray-400 font-semibold rounded-full text-sm px-6 py-3 transition-all duration-200 ease-in-out"
+          >
+            Following
+          </button>
+          } @else if (!userProfile.data().isCurrent){
+          <button
+            (click)="onFollow()"
+            class="font-LotaGrotesque w-fit ring-1 ring-gray-300 hover:ring-gray-400 focus:ring-gray-400 font-semibold rounded-full text-sm px-6 py-3 transition-all duration-200 ease-in-out"
+          >
+            Follow
+          </button>
+          } }
+
+          <ngx-popover [bindTo]="others" [placement]="'bottom-start'">
+            <button
+              #others
+              class="font-LotaGrotesque w-fit ring-1 ring-gray-300 hover:ring-gray-400 focus:ring-gray-400 font-semibold rounded-full text-sm p-4 transition-all duration-200 ease-in-out"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 16 16"
+                fill="none"
+                role="img"
+                class="fill-black"
+              >
+                <circle cx="2" cy="8" r="1.5"></circle>
+                <circle cx="14" cy="8" r="1.5"></circle>
+                <circle cx="8" cy="8" r="1.5"></circle>
+              </svg>
+            </button>
+            <ng-template ngx-popover-template>
+              <div
+                class="w-fit h-fit px-5 py-4 bg-white rounded-md shadow-2xl shadow-gray-200 ring-1 ring-gray-300 items-start justify-start flex flex-col gap-4 mt-2"
+              >
+                <div class="flex flex-col w-full gap-3">
+                  <ul
+                    class="flex flex-col gap-2 items-start font-LotaGrotesque text-sm font-light text-gray-500 transition-all duration-200 ease-in-out"
+                  >
+                    @if (userProfile.data().isCurrent){
+                    <li class="hover:text-gray-700">
+                      Add or remove from lists…
+                    </li>
+                    <li
+                      class="hover:text-gray-700"
+                      routerLink="/account/general"
+                    >
+                      Edit your account settings
+                    </li>
+                    <li class="hover:text-gray-700">Edit work preferences</li>
+                    } @else {
+                    <li class="hover:text-gray-700">
+                      Add or remove from lists…
+                    </li>
+                    <div
+                      class="border-t-[1px] border-solid border-gray-300 w-full"
+                    ></div>
+                    <li
+                      class="hover:text-gray-700"
+                      routerLink="/account/general"
+                    >
+                      Block {{ userProfile.data().full_name }}
+                    </li>
+                    <li
+                      class="hover:text-gray-700"
+                      routerLink="/account/general"
+                    >
+                      Report {{ userProfile.data().full_name }}
+                    </li>
+                    }
+                  </ul>
+                </div>
+              </div>
+            </ng-template>
+          </ngx-popover>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="px-20">
+    <p-tabMenu [model]="tabs" [activeItem]="activeTab">
+      <ng-template pTemplate="tabs" let-tab>
+        @if(tab.route) {
+        <a [routerLink]="tab.route" class="p-menuitem-link">
+          <span>
+            {{ tab.label }}
+          </span>
+        </a>
+        } @else {
+        <a class="p-menuitem-link">
+          <span> {{ tab.label }} </span>
+        </a>
+        }
+      </ng-template>
+    </p-tabMenu>
+    <div class="py-20"><router-outlet></router-outlet></div>
+  </div>
+  }
+</section>

@@ -1,0 +1,6 @@
+@if (currentProject.isError()) {
+<h1>Error</h1>
+} @else if (currentProject.isPending()) { } @else if
+(currentProject.isSuccess()){
+{{ currentProject.data().title }}
+}

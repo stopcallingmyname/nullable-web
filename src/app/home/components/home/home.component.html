@@ -1,0 +1,16 @@
+<nb-navbar />
+<ngx-spinner
+  bdColor="rgba(255, 255, 255, 0)"
+  color="rgba(255, 218, 121, .5)"
+  size="medium"
+  type="square-jelly-box"
+  name="userLoading"
+  [fullScreen]="true"
+  [showSpinner]="updateLoadingSpinner()"
+></ngx-spinner>
+
+<script src="https://accounts.google.com/gsi/client" async></script>
+
+<section class="w-full h-full">
+  <router-outlet class="hidden"></router-outlet>
+</section>
