@@ -1,11 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map, Observable, of } from 'rxjs';
-
-import { environment } from 'src/environments/environment.development';
 import { CurrentUserInterface } from '../../shared/types/currentUser.interface';
 import { RegisterRequestInterface } from '../types/registerRequest.interface';
 import { LoginRequestInterface } from '../types/loginRequest.interface';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root',
