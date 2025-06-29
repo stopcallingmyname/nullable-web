@@ -77,7 +77,7 @@ export class RegisterComponent implements OnInit, AfterViewInit {
     if (window.google) {
       // @ts-ignore
       google.accounts.id.initialize({
-        client_id: environment.googleClientId as string,
+        client_id: environment.googleClientId,
         auto_select: false,
         cancel_on_tap_outside: false,
         context: 'use',
