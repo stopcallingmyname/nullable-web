@@ -14,8 +14,8 @@ import { environment } from 'src/environments/environment';
 export class UploadcareService {
   uploadcareSimpleAuthSchema: UploadcareSimpleAuthSchema =
     new UploadcareSimpleAuthSchema({
-      publicKey: environment.uploadcarePublicKey,
-      secretKey: environment.uploadcareSecretKey,
+      publicKey: environment.uploadcarePublicKey as string,
+      secretKey: environment.uploadcareSecretKey as string,
     });
 
   constructor() {}
@@ -31,7 +31,7 @@ export class UploadcareService {
 
   private parseUuidFromUploadcareUrl(imageUrl: string): string {
     const urlWithoutDomain = imageUrl.replace(
-      environment.uploadcareBaseUrl,
+      environment.uploadcareBaseUrl as string,
       ''
     );
     const uuid = urlWithoutDomain.substring(0, urlWithoutDomain.indexOf('/'));

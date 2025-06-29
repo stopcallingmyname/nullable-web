@@ -18,3 +18,4 @@ const content = `export const environment = {
 
 fs.writeFileSync(envPath, content);
 console.log('--- GENERATED environment.prod.ts ---');
+console.log(content);

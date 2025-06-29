@@ -77,7 +77,7 @@ export class LoginComponent implements OnInit, AfterViewInit {
     if (window.google) {
       // @ts-ignore
       google.accounts.id.initialize({
-        client_id: environment.googleClientId,
+        client_id: environment.googleClientId as string,
         auto_select: false,
         cancel_on_tap_outside: false,
         context: 'use',
