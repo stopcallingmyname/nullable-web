@@ -1,7 +1,10 @@
 const fs = require('fs');
 const path = require('path');
 
-const envPath = path.resolve(__dirname, 'src/environments/environment.prod.ts');
+const envPath = path.resolve(
+  __dirname,
+  '../src/environments/environment.prod.ts'
+);
 
 const content = `export const environment = {
   production: true,
