@@ -25,7 +25,8 @@ import { injectLoginUserMutation } from 'src/app/auth/store/user/mutations/login
 import { HttpErrorResponse } from '@angular/common/http';
 import { CredentialResponse } from 'google-one-tap';
 import { SocialAuthService } from '../../services/socialAuth.service';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
+
 import { injectSocialAuthMutation } from '../../store/user/mutations/socialAuth.mutation';
 
 @Component({

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
+
 import { ProjectInterface } from '../types/project.interface';
 import { Observable } from 'rxjs';
 import { SearchProjectRequestInterface } from '../types/searchProjectsRequest.interface';

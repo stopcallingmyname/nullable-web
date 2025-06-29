@@ -5,7 +5,8 @@ import { Observable } from 'rxjs';
 import { UpdateProfileRequestInterface } from 'src/app/account/types/updateProfileRequestInterface';
 
 import { CurrentProfileInterface } from 'src/app/shared/types/currentProfile.interface';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
+
 import { UpdateUserSkillsRequestInterface } from '../types/update-user-skills-request.interface..dto';
 
 @Injectable({

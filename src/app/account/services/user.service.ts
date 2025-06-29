@@ -6,7 +6,8 @@ import {
   UploadcareSimpleAuthSchema,
 } from '@uploadcare/rest-client';
 import { from, Observable } from 'rxjs';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
+
 import { UpdateUserRequestInterface } from '../types/updateUserRequest.interface';
 import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
 import { UpdateUserPasswordRequestInterface } from '../types/updateUserPasswordRequest.interface';

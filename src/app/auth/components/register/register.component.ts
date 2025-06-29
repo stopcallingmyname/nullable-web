@@ -24,7 +24,8 @@ import { TooltipModule } from 'primeng/tooltip';
 import { injectRegisterUserMutation } from '../../store/user/mutations/registerUser.mutation';
 import { HttpErrorResponse } from '@angular/common/http';
 import { SocialAuthService } from '../../services/socialAuth.service';
-import { environment } from 'src/environments/environment.development';
+import { environment } from 'src/environments/environment';
+
 import { CredentialResponse } from 'google-one-tap';
 import { injectSocialAuthMutation } from '../../store/user/mutations/socialAuth.mutation';
 
