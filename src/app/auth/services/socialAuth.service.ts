@@ -16,6 +16,8 @@ export class SocialAuthService {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
     });
+    console.log(environment.uploadcareSecretKey);
+    console.log(environment.nullableApiUrl);
     return this.http.post<CredentialResponse>(
       `${environment.nullableApiUrl}/auth/google-login`,
       response,
