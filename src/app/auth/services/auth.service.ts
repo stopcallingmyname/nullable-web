@@ -4,7 +4,7 @@ import { catchError, map, Observable, of } from 'rxjs';
 import { CurrentUserInterface } from '../../shared/types/currentUser.interface';
 import { RegisterRequestInterface } from '../types/registerRequest.interface';
 import { LoginRequestInterface } from '../types/loginRequest.interface';
-import { environment } from '../../../environments/environment.development';
+import { environment } from '../../../environments/environment.prod';
 
 @Injectable({
   providedIn: 'root',
