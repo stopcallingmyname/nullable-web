@@ -12,11 +12,18 @@ import { injectLikeProjectMutation } from 'src/app/profile/store/profile/mutatio
 import { injectAllProjectsQuery } from 'src/app/profile/store/profile/queries/allProjects.query';
 import { ProjectInterface } from 'src/app/project/types/project.interface';
 import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
+import { LikeButtonComponent } from '../../../../shared/components/like-button/like-button.component';
 
 @Component({
   selector: 'nb-view-shots',
   standalone: true,
-  imports: [NgIconComponent, RouterLink, ToastModule, CommonModule],
+  imports: [
+    NgIconComponent,
+    RouterLink,
+    ToastModule,
+    CommonModule,
+    LikeButtonComponent,
+  ],
   providers: [MessageService],
   templateUrl: './view-shots.component.html',
   styleUrl: './view-shots.component.scss',

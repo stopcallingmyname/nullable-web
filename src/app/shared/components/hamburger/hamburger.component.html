@@ -1,0 +1,66 @@
+<section>
+  <button
+    class="group/mBtn grid grid-cols-1 w-6 gap-1 font-bold text-2xl shrink-0 md:hidden cursor-pointer"
+    (click)="toggleMenu()"
+  >
+    <span class="w-full h-[3px] rounded-full bg-gray-950"></span>
+    <span
+      class="w-3/4 h-[3px] rounded-full bg-gray-950 group-active/mBtn:w-full transition-all duration-300"
+    ></span>
+    <span
+      class="w-1/2 h-[3px] rounded-full bg-gray-950 group-active/mBtn:w-full transition-all duration-400"
+    ></span>
+  </button>
+
+  @if (isVisible()) {
+  <div
+    class="absolute left-0 top-0 w-full h-full z-10 bg-[#00000080] transition-opacity duration-300"
+    [class.opacity-0]="isFadingOut() || isFadingIn()"
+    [class.opacity-100]="isOpen()"
+    [style.top.px]="navbarHeight"
+  ></div>
+
+  <div
+    class="absolute left-0 w-full bg-white p-8 z-20 border-t border-gray-50 transition-opacity duration-300"
+    [class.opacity-0]="isFadingOut() || isFadingIn()"
+    [class.opacity-100]="isOpen()"
+    [style.top.px]="navbarHeight"
+  >
+    <p-panelMenu
+      [model]="menuItems"
+      [multiple]="true"
+      styleClass="w-full p-0 m-0"
+    >
+      <ng-template pTemplate="item" let-item let-i="index">
+        <a
+          class="inline-flex items-center cursor-pointer py-4 leading-5 font-bold text-lg text-black"
+          [ngClass]="{
+            'font-normal text-sm leading-4':
+              !item.escape && !item.items && !item.icon,
+            'animate-fade-left,': isOpen()
+          }"
+          [style.animationDelay]="i * 80 + 'ms'"
+        >
+          <span class="inline-flex gap-2 items-center">
+            @if (item.icon) {
+            <i [class]="item.icon" class="font-bold text-lg"></i>
+            }
+            <span class="p-0">{{ item.label }}</span>
+          </span>
+
+          @if (item.items) {
+          <i
+            class="pi pi-angle-down text-sm transition-all duration-200 ml-[6px]"
+            [class.scale-y-[-1]]="item.expanded"
+          ></i>
+          }
+        </a>
+
+        @if (item.separator) {
+        <div class="border-t border-gray-300 w-full"></div>
+        }
+      </ng-template>
+    </p-panelMenu>
+  </div>
+  }
+</section>

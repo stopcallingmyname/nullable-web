@@ -11,6 +11,7 @@ import { SubscriptionInterface } from 'src/app/profile/types/follow.interface';
 import { assertInjectorFn } from 'src/app/shared/store/assertInjectorFn';
 import { LikeService } from 'src/app/profile/services/like.service';
 import { ProjectInterface } from 'src/app/project/types/project.interface';
+import { projectKeys } from 'src/app/project/store/project/project.keys';
 
 export const injectLikeProjectMutation = (
   { injector }: { injector?: Injector } = {},

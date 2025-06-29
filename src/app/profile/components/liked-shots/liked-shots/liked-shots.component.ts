@@ -12,11 +12,12 @@ import { injectLikedProjectsByUsernameQuery } from 'src/app/project/store/projec
 import { ProjectInterface } from 'src/app/project/types/project.interface';
 import { injectUserProfileByUsernameQuery } from 'src/app/shared/store/profile/queries/userProfileByUsername.query';
 import { CurrentProfileInterface } from 'src/app/shared/types/currentProfile.interface';
+import { LikeButtonComponent } from '../../../../shared/components/like-button/like-button.component';
 
 @Component({
   selector: 'nb-liked-shots',
   standalone: true,
-  imports: [NgIconComponent, RouterLink, CommonModule],
+  imports: [NgIconComponent, RouterLink, CommonModule, LikeButtonComponent],
   providers: [MessageService],
   templateUrl: './liked-shots.component.html',
   styleUrl: './liked-shots.component.scss',

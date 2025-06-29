@@ -1,9 +1,9 @@
 <p-toast></p-toast>
-<section class="px-8 flex flex-row gap-4 justify-between">
+<section class="md:px-8 flex flex-row md:gap-4 justify-between">
   @if (userProfile.isError()) {
   <h1>Error</h1>
   } @else if (userProfile.isPending()) { } @else if (userProfile.isSuccess()){
-  <div class="flex flex-col gap-9 w-full">
+  <div class="flex flex-col gap-2 md:gap-9 w-full">
     @if (userProfile.data().isCurrent) { @if (userProfile.data().bio) {
     <div
       class="group/bio p-4 flex flex-col hover:ring-2 hover:ring-gray-100 rounded-md transition-all duration-200 ease-in-out"
@@ -39,6 +39,112 @@
     </div>
     } } @else {
     <div class="p-4 flex flex-col gap-3 items-start content-center text-base">
+      <div
+        class="mb-5 flex md:hidden w-full p-5 bg-gray-50 rounded-md flex-col items-start text-nowrap h-fit content-center gap-4 text-sm font-LotaGrotesque font-normal text-gray-500"
+      >
+        @if(userProfile.data().location) {
+        <span class="inline-flex gap-2 items-center"
+          ><ng-icon class="text-black text-base" name="octLocation"></ng-icon>
+          <p>
+            {{ userProfile.data().location }}
+          </p></span
+        >
+        }
+        <span class="inline-flex gap-2 items-center">
+          <ng-icon class="text-black text-base" name="octPerson"></ng-icon>
+          <p>
+            Member since
+            {{ userProfile.data().registration_date | date : 'MMM, y' }}
+          </p>
+        </span>
+      </div>
+
+      <p class="block md:hidden font-IBMPlexMono font-medium">Social</p>
+      <div
+        class="mb-5 flex md:hidden flex-row items-start text-nowrap h-fit content-center gap-4 text-sm font-LotaGrotesque font-normal text-gray-500"
+      >
+        @if(userProfile.data().personal_website_url) {
+        <a
+          href="{{ userProfile.data().personal_website_url }}"
+          class="inline-flex gap-2 items-center"
+          ><ng-icon
+            class="text-black text-base"
+            name="octFeedPerson"
+            size="20"
+          ></ng-icon>
+        </a>
+        } @if(userProfile.data().twitter_url) {
+        <a
+          href="{{ userProfile.data().twitter_url }}"
+          class="inline-flex gap-2 items-center"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapTwitter"
+            size="20"
+          ></ng-icon>
+        </a>
+        } @if(userProfile.data().facebook_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().facebook_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapFacebook"
+            size="20"
+          ></ng-icon>
+        </a>
+        } @if(userProfile.data().instagram_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().instagram_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapInstagram"
+            size="20"
+          ></ng-icon>
+        </a>
+        } @if(userProfile.data().github_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().github_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapGithub"
+            size="20"
+          ></ng-icon>
+        </a>
+        } @if(userProfile.data().behance_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().behance_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapBehance"
+            size="20"
+          ></ng-icon>
+        </a>
+        } @if(userProfile.data().linkedIn_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().linkedIn_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapLinkedin"
+            size="20"
+          ></ng-icon>
+        </a>
+        } @if(userProfile.data().vimeo_url) {
+        <a
+          class="inline-flex gap-2 items-center"
+          href="{{ userProfile.data().vimeo_url }}"
+          ><ng-icon
+            class="text-black text-base"
+            name="bootstrapVimeo"
+            size="20"
+          ></ng-icon> </a
+        >}
+      </div>
+
       <p class="font-IBMPlexMono font-medium">Biography</p>
       @if (userProfile.data().bio){
       <p class="font-LotaGrotesqu text-gray-400 font-light">
@@ -95,7 +201,7 @@
     } } @else { @if (userProfile.data().skills) {
     <div class="p-4 flex flex-col gap-4 items-start content-center text-base">
       <p class="font-IBMPlexMono font-medium">Skills</p>
-      <div class="flex flex-row gap-4 items-center content-center w-full">
+      <div class="flex flex-wrap gap-4 items-center w-full">
         @for (skill of userProfile.data().skills; track $index) {
         <p-chip removable="false">{{ skill.tag_name }}</p-chip>
         }
@@ -104,9 +210,9 @@
     } }
     <!--  -->
     <p-fieldset legend="Statistics">
-      <div class="grid grid-cols-3 grid-rows-3 gap-4">
+      <div class="grid grid-cols-2 md:grid-cols-3 grid-rows-3 gap-4">
         <div
-          class="flex flex-row items-center content-center justify-center gap-10 bg-gray-100 rounded-lg p-5 col-span-2 row-span-2"
+          class="flex flex-row items-center content-center justify-center gap-10 bg-gray-100 rounded-lg md:p-5 col-span-2 row-span-2"
         >
           <p-chart
             pTooltip="Weekly activity shows the posts published this week by {{
@@ -125,7 +231,7 @@
           />
         </div>
         <div
-          class="flex flex-row items-center content-center justify-center bg-gray-100 rounded-lg p-5 row-span-2 col-start-3"
+          class="hidden md:flex flex-row items-center content-center justify-center bg-gray-100 rounded-lg md:p-5 row-span-2 col-start-3"
         >
           <div class="flex flex-col items-center w-fit">
             <p-knob
@@ -133,17 +239,17 @@
               [valueTemplate]="knobProjects"
               [strokeWidth]="6"
               [readonly]="true"
-              [size]="140"
               rangeColor="#ea64d924"
               textColor="#0d0c22"
               valueColor="#0d0c22"
               ariaLabelledBy="label_projects"
               [min]="0"
               [max]="30"
+              [size]="140"
               [style]="{
-            borderRadius: '999px',
-            strokeLinecap: 'round',
-          }"
+                borderRadius: '999px',
+                strokeLinecap: 'round',
+              }"
               pTooltip="All posts ever published by {{
                 userProfile.data().full_name
               }}"
@@ -260,7 +366,7 @@
           >
             <fieldset class="flex flex-col gap-2 w-full">
               <label
-                class="font-LotaGrotesque font-medium text-md text-black"
+                class="font-LotaGrotesque font-medium text-base text-black"
                 for="identifier"
                 >Skills</label
               >
@@ -316,7 +422,7 @@
   <!--  -->
   <div class="flex flex-col gap-9 items-start">
     <div
-      class="w-full p-5 bg-gray-50 rounded-md flex flex-col items-start text-nowrap h-fit content-center gap-4 text-sm font-LotaGrotesque font-normal text-gray-500"
+      class="hidden md:flex w-full p-5 bg-gray-50 rounded-md flex-col items-start text-nowrap h-fit content-center gap-4 text-sm font-LotaGrotesque font-normal text-gray-500"
     >
       @if(userProfile.data().location) {
       <span class="inline-flex gap-2 items-center"
@@ -446,7 +552,7 @@
     </div>
     } @else {
     <div
-      class="flex flex-col items-start text-nowrap h-fit content-center gap-4 text-sm font-LotaGrotesque font-normal text-gray-500"
+      class="hidden md:flex flex-col items-start text-nowrap h-fit content-center gap-4 text-sm font-LotaGrotesque font-normal text-gray-500"
     >
       <p class="font-IBMPlexMono font-medium text-base text-black">Social</p>
       @if(userProfile.data().personal_website_url) {

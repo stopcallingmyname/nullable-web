@@ -1,56 +1,81 @@
-<section class="md:grid md:grid-cols-3 h-24 items-center justify-center mx-10">
+<section
+  #navbar
+  class="flex flex-row gap-3 mx-0 px-4 h-14 md:flex md:gap-4 md:h-24 md:px-10 items-center justify-center bg-white"
+>
+  <ng-hamburger [navbarHeight]="getNavbarHeight()" class="block md:hidden" />
   <p
     routerLink="/"
-    class="font-LotaGrotesque font-bold text-2xl w-fit hover:opacity-90 transition-opacity ease-in-out cursor-pointer"
+    class="-skew-y-3 font-LotaGrotesque font-bold text-2xl w-fit hover:opacity-90 transition-opacity ease-in-out cursor-pointer"
   >
-    <span class="text-red-600 text-xl cursor-pointer">.</span>Nullable<span
-      class="text-red-600 text-xl cursor-pointer"
-      >::</span
-    >dev
+    <span class="text-red-600 text-xl cursor-pointer">.</span>Nullable
   </p>
   <nav>
-    <ul class="flex flex-row gap-10 content-center items-center">
+    <ul
+      class="hidden md:flex md:flex-row md:gap-10 md:content-center md:items-center md:ml-6"
+    >
       <li
         class="font-IBMPlexMono font-semibold text-sm hover:text-indigo-600 hover:underline transition-all duration-200 ease-in-out cursor-pointer"
+        routerLink="popular"
       >
-        Find Designers
+        Popular
       </li>
       <li
         class="font-IBMPlexMono font-semibold text-sm hover:text-indigo-600 hover:underline transition-all duration-200 ease-in-out cursor-pointer"
+      >
+        Hire a Designer
+      </li>
+      <li
+        class="font-IBMPlexMono font-semibold text-sm hover:text-indigo-600 hover:underline transition-all duration-200 ease-in-out cursor-pointer"
+        routerLink="new"
       >
         Inspiration
       </li>
     </ul>
   </nav>
-  <div class="flex flex-row gap-6 items-center justify-end">
+  <div class="flex flex-row gap-4 items-center justify-end ml-auto">
+    <div class="xs:block xs:size-10 md:hidden"></div>
     @if (currentUser.isError()) {
     <a
-      class="text-black font-IBMPlexMono text-sm font-medium"
-      routerLink="/session"
-      >Log In</a
-    >
-    <button
-      class="font-IBMPlexMono w-fit text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-full text-sm px-6 py-4 dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 transition-all duration-200 ease-in-out"
+      class="hidden md:block md:px-0 md:font-bold md:text-black md:bg-transparent md:hover:bg-transparent md:focus:ring-0 md:dark:bg-transparent md:dark:hover:bg-transparent font-IBMPlexMono text-sm content-center"
       routerLink="/signup"
     >
       Sign Up
+    </a>
+
+    <button
+      class="w-fit h-10 px-6 text-white bg-gray-950 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-bold rounded-full leading-[1] dark:bg-gray-950 dark:hover:bg-gray-900 dark:focus:ring-gray-700 dark:border-gray-700 transition-all duration-200 ease-in-out md:font-medium md:text-sm md:h-fit md:px-6 md:py-4 font-IBMPlexMono"
+      routerLink="/session"
+    >
+      Log In
     </button>
     } @else if (currentUser.isPending()) {Loading..} @else {
     <button
-      routerLink="/uploads/new"
-      class="font-LotaGrotesque w-fit ring-1 ring-gray-300 hover:ring-gray-400 focus:ring-gray-400 font-semibold rounded-full text-sm px-6 py-3 transition-all duration-200 ease-in-out"
+      routerLink="uploads/new"
+      class="hidden md:flex font-LotaGrotesque w-fit ring-1 ring-gray-300 hover:ring-gray-400 focus:ring-gray-400 font-semibold rounded-full text-sm px-6 py-3 transition-all duration-200 ease-in-out"
     >
       Share work
     </button>
     <ngx-popover [bindTo]="profile" [placement]="'bottom-end'">
-      <div #profile class="size-12">
+      <div #profile class="size-[42px] md:size-12 relative">
         <img
           class="w-full h-full object-cover rounded-full cursor-pointer"
           src="{{ currentUser.data()!.profile.avatar_url }}"
           alt=""
-          onerror="this.src = `https://cdn.dribbble.com/users/2125326/screenshots/5983063/media/e1a717a9c3c683ce0f3ab85eec7db184.png?resize=1200x900&vertical=center`"
+          onerror="this.src = 'https://cdn.dribbble.com/users/2125326/screenshots/5983063/media/e1a717a9c3c683ce0f3ab85eec7db184.png?resize=1200x900&vertical=center'"
         />
+
+        @if (currentUser.data()?.profile?.open_to_work) {
+        <span class="absolute bottom-1 right-0 flex h-2 w-2">
+          <span
+            class="relative inline-flex rounded-full h-2 w-2 bg-green-400 ring-2 ring-white"
+          ></span>
+          <span
+            class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+          ></span>
+        </span>
+        }
       </div>
+
       <ng-template ngx-popover-template>
         <div
           class="w-fit h-fit px-5 py-6 bg-white rounded-md shadow-2xl shadow-gray-200 ring-1 ring-gray-100 items-start justify-start flex flex-col gap-4 mt-4"
@@ -79,8 +104,19 @@
             </p>
           </div>
           <div class="flex flex-col w-full gap-3">
+            <div
+              class="flex items-center justify-center w-full h-fit md:hidden mb-5"
+            >
+              <button
+                routerLink="uploads/new"
+                class="font-LotaGrotesque w-fit ring-1 ring-gray-300 hover:ring-gray-400 focus:ring-gray-400 font-semibold rounded-full text-sm px-6 py-3 transition-all duration-200 ease-in-out"
+              >
+                Share work
+              </button>
+            </div>
+
             <p
-              class="font-LotaGrotesque font-light text-base cursor-pointer hover:text-gray-700 transition-all duration-200 ease-in-out"
+              class="hidden md:flex font-LotaGrotesque font-light text-base cursor-pointer hover:text-gray-700 transition-all duration-200 ease-in-out"
               routerLink="uploads/new"
             >
               Upload project

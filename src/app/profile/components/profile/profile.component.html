@@ -44,10 +44,10 @@
         <div class="inline-flex items-center gap-2">
           <span class="relative flex h-2 w-2">
             <span
-              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
+              class="relative inline-flex rounded-full h-2 w-2 bg-green-400"
             ></span>
             <span
-              class="relative inline-flex rounded-full h-2 w-2 bg-green-400"
+              class="animate-ping absolute inline-flex h-full w-full rounded-full bg-green-400 opacity-75"
             ></span>
           </span>
           <p class="font-LotaGrotesque font-medium text-black text-sm">
@@ -58,9 +58,9 @@
     </ng-template></p-dialog
   >
   <div
-    class="w-full h-fit flex items-center justify-center content-center py-16"
+    class="w-full h-fit flex items-center justify-center content-center py-10 md:py-16"
   >
-    <div class="flex flex-row gap-6 items-center">
+    <div class="flex flex-row gap-2 md:gap-6 items-center">
       <div class="size-32">
         <img
           class="w-full h-full object-cover rounded-full ring-4 ring-gray-100"
@@ -69,8 +69,10 @@
           onerror="this.src = `https://cdn.dribbble.com/users/2125326/screenshots/5983063/media/e1a717a9c3c683ce0f3ab85eec7db184.png?resize=1200x900&vertical=center`"
         />
       </div>
-      <div class="flex flex-col items-start content-center gap-3 mx-4 my-2">
-        <p class="font-LotaGrotesque font-bold text-4xl">
+      <div
+        class="flex flex-col items-start content-center gap-2 md:gap-3 mx-4 my-2"
+      >
+        <p class="font-LotaGrotesque font-bold text-2xl md:text-4xl">
           {{ userProfile.data().full_name }}
         </p>
         @if (userProfile.data().location) {
@@ -170,7 +172,7 @@
     </div>
   </div>
 
-  <div class="px-20">
+  <div class="px-6 md:px-20">
     <p-tabMenu [model]="tabs" [activeItem]="activeTab">
       <ng-template pTemplate="tabs" let-tab>
         @if(tab.route) {
@@ -186,7 +188,7 @@
         }
       </ng-template>
     </p-tabMenu>
-    <div class="py-20"><router-outlet></router-outlet></div>
+    <div class="py-2 md:py-20"><router-outlet></router-outlet></div>
   </div>
   }
 </section>

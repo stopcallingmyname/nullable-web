@@ -15,7 +15,6 @@ import { NavbarComponent } from '../navbar/navbar.component';
 import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface';
 import { injectCurrentUserQuery } from 'src/app/shared/store/user/queries/currentUser.query';
 import { CurrentProfileInterface } from 'src/app/shared/types/currentProfile.interface';
-import { injectCurrentProfileQuery } from 'src/app/shared/store/profile/queries/currentProfile.query';
 import { injectAllProfilesQuery } from 'src/app/shared/store/profile/queries/allProfiles.query';
 import { ViewShotsComponent } from '../view-shots/view-shots/view-shots.component';
 

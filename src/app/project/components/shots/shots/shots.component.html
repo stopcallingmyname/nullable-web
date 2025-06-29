@@ -11,8 +11,10 @@
 
 @if (currentUser.isSuccess()) {
 <section class="w-full h-full pt-8">
-  <div class="px-[72px]">
-    <div class="flex flex-row items-center">
+  <div class="px-5 md:px-[72px]">
+    <div
+      class="flex flex-col content-center items-start xs:gap-8 md:flex-row md:items-center"
+    >
       <div class="mr-10">
         <p-dropdown
           [options]="pages"
@@ -21,33 +23,25 @@
           (onChange)="onPageChange($event)"
         />
       </div>
-      <div class="inline-flex gap-4">
-        <!-- @for (tag of allTags.data(); track $index) { @if ($index <9) {
-        <span
-          class="bg-gray-100 text-sm font-IBMPlexMono font-medium px-5 py-2 rounded-full hover:text-gray-500 transition-all animate-ease-out duration-200"
-          (click)="onFilterProjects($event, tag)"
-          >{{ tag.tag_name }}</span
-        >
-        } } -->
+      <!-- <div class="inline-flex gap-4">
         @if (allTags.isSuccess()) {
-        <p-carousel
-          [value]="allTags.data()"
-          [numVisible]="5"
-          [numScroll]="2"
-          [circular]="false"
-          [responsiveOptions]="undefined"
-          [showIndicators]="false"
-        >
-          <ng-template let-tag pTemplate="item"
-            ><span
-              class="cursor-pointer w-full text-nowrap bg-gray-100 text-sm font-IBMPlexMono font-medium px-5 py-2 rounded-full hover:text-gray-500 transition-all animate-ease-out duration-200"
-              (click)="onFilterProjects($event, tag)"
-              >{{ tag.tag_name }}</span
-            ></ng-template
+
+        <div class="overflow-hidden">
+          <p-carousel
+            [value]="allTags.data()"
+            [numVisible]="3"
+            [numScroll]="1"
+            [circular]="false"
+            [showIndicators]="false"
+            [styleClass]="'text-center'"
           >
-        </p-carousel>
+            <ng-template let-tag pTemplate="item"
+              ><span class="bg-gray-400">{{ tag.tag_name }}</span></ng-template
+            >
+          </p-carousel>
+        </div>
         }
-      </div>
+      </div> -->
     </div>
   </div>
   @if (searchProjectsQuery.isLoading()){} @else if
@@ -57,22 +51,27 @@
   </div>
   }
 </section>
-} @else if (currentUser.isError()){
-<div class="flex flex-col items-center content-center pt-20">
+} @else if (currentUser.isError() && router.url == '/'){
+<div class="flex flex-col items-center content-center pt-16 md:pt-20 w-full">
   <div class="flex flex-col items-center content-center">
     <span
-      class="text-base text-black px-4 py-2 rounded-full font-SourceSerif4 font-semibold animate-badge-color-cycle"
+      class="text-sm md:text-base text-black px-4 py-2 rounded-full font-SourceSerif4 font-semibold animate-badge-color-cycle"
       ><a routerLink="/signup"
         >A thriving network of talented creatives!</a
       ></span
     >
-    <div class="mt-10 mx-40 mb-6">
-      <h1 class="font-SourceSerif4 text-7xl text-black text-center text-pretty">
+
+    <div class="mt-10 mx-12 md:mx-40 mb-6">
+      <h1
+        class="font-SourceSerif4 text-5xl font-semibold md:font-medium md:text-7xl text-black text-center text-pretty"
+      >
         The world’s destination for design
       </h1>
     </div>
     <div class="flex flex-col items-center content-center gap-8">
-      <p class="text-xl font-LotaGrotesque font-medium">
+      <p
+        class="max-w-[70%] md:w-fit text-center text-base text-pretty md:text-xl font-LotaGrotesque font-medium"
+      >
         Discover the creativity of top-rated designers & agencies worldwide.
       </p>
       <button
@@ -151,7 +150,9 @@
   </div>
 </div>
 <div class="flex flex-col gap-12 items-center content-center">
-  <h2 class="font-LotaGrotesque text-5xl text-black font-normal">
+  <h2
+    class="font-LotaGrotesque xs:mx-5 xs:text-start font-medium text-4xl md:text-5xl text-black md:font-normal"
+  >
     Explore inspiring designs
   </h2>
   @if (allProjects.isSuccess()) {
@@ -163,15 +164,15 @@
   }
 </div>
 }
-<div class="w-full py-[120px] bg-[#ffda79] text-center">
+<div class="w-full py-[120px] bg-[#ffda79] text-center xs:mt-9">
   <div class="flex flex-col gap-6 items-center content-center max-w-7xl">
     <h2
-      class="text-6xl leading-[76px] text-black font-normal font-SourceSerif4 text-pretty max-w-2xl"
+      class="text-5xl xs:px-5 font-semibold md:text-6xl leading-tight md:leading-[76px] text-black md:font-normal font-SourceSerif4 text-pretty max-w-2xl"
     >
       Find your next designer today
     </h2>
     <span
-      class="font-LotaGrotesque max-w-[600px] font-light text-xl w-full text-pretty leading-9"
+      class="font-LotaGrotesque max-w-[300px] md:max-w-[600px] font-light text-base md:text-xl w-full text-pretty leading-6 md:leading-9"
     >
       The world’s leading brands use .Nullable to hire creative talent. Browse
       an extensive collection of top-rated portfolios to find your perfect
@@ -192,4 +193,23 @@
     >
   </div>
 </div>
+} @else if (allProjects.isSuccess()) {
+<div class="px-5 md:px-[72px] my-8">
+  <div
+    class="flex flex-col content-center items-start xs:gap-8 md:flex-row md:items-center"
+  >
+    <div class="mr-10">
+      <p-dropdown
+        [options]="pages"
+        [(ngModel)]="selectedPage"
+        optionLabel="key"
+        (onChange)="onPageChange($event)"
+      />
+    </div>
+  </div>
+</div>
+<nb-view-shots
+  [projects]="allProjects.data()"
+  class="w-full h-full"
+></nb-view-shots>
 }

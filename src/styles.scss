@@ -1,20 +1,3 @@
-// @layer tailwind-base, primeng, tailwind-utilities;
-
-// @layer tailwind-base {
-//   @tailwind base;
-// }
-
-// @layer tailwind-utilities {
-//   @tailwind components;
-//   @tailwind utilities;
-// }
-
-// @layer primeng {
-//   @import 'primeng/resources/themes/aura-light-pink/theme.css';
-//   @import 'primeng/resources/primeng.css';
-//   @import 'primeicons/primeicons.css';
-// }
-
 @import 'primeng/resources/themes/aura-light-pink/theme.css';
 @import 'primeng/resources/primeng.css';
 @import 'primeicons/primeicons.css';
@@ -61,6 +44,7 @@
 }
 
 body {
+  overflow: overlay;
   font-family: 'Mona Sans', 'Helvetica Neue', Helvetica, Arial, sans-serif;
   height: 100%;
   width: 100%;
@@ -303,4 +287,58 @@ button:focus-visible {
   --tw-shadow-colored: 0 0 0 6px var(--tw-shadow-color);
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+// PANEL MENU SETUP
+.p-panelmenu .p-panelmenu-content {
+  padding: 0;
+}
+
+.p-panelmenu .p-panelmenu-panel {
+  padding: 0;
+}
+
+.p-panelmenu
+  .p-panelmenu-content
+  .p-menuitem:not(.p-highlight):not(.p-disabled).p-focus
+  > .p-menuitem-content {
+  background: transparent !important;
+  opacity: 80%;
+}
+
+.p-dropdown {
+  border: 1.5px solid rgba(231, 231, 233, 0.9);
+  border-radius: 8px;
+  -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.01);
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.01);
+}
+
+.p-dropdown:not(.p-disabled).p-focus {
+  outline: none;
+}
+
+.p-inputtext:hover {
+  --tw-shadow: none;
+}
+
+.p-inputtext {
+  --tw-ring-shadow: none;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight.p-focus {
+  background-color: white;
+  color: var(bnPink);
+}
+
+* {
+  // outline: solid 1px black;
+}
+
+.p-image-preview {
+  border-radius: 0.5rem;
+}
+
+.p-element .p-icon-wrapper {
+  // color: gray !important;
+  filter: invert(1);
 }

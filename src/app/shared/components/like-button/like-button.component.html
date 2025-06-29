@@ -1,0 +1,21 @@
+<div
+  class="p-3 rounded-full text-center shadow-lg"
+  [ngClass]="project.isLiked ? 'bg-[#ffe9fc]' : 'bg-white'"
+  (click)="onLikeProject($event)"
+>
+  <ng-icon
+    *ngIf="project.isLiked; else notLiked"
+    name="octHeartFill"
+    class="text-bnPink animate-jump cursor-pointer transition-all ease-in-out duration-200"
+    [style]="{ display: 'flex' }"
+  ></ng-icon>
+
+  <ng-template #notLiked>
+    <ng-icon
+      name="ionHeartOutline"
+      class="text-black cursor-pointer hover:text-gray-500 transition-all ease-in-out duration-200"
+      strokeWidth="45px"
+      [style]="{ display: 'flex' }"
+    ></ng-icon>
+  </ng-template>
+</div>

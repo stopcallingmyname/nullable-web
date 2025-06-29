@@ -26,9 +26,10 @@ import { CurrentUserInterface } from 'src/app/shared/types/currentUser.interface
 import { TagInterface } from 'src/app/shared/types/tag.interface';
 import { injectAllTagsQuery } from 'src/app/project/store/project/queries/allTagsQuery';
 import { ProjectInterface } from 'src/app/project/types/project.interface';
-import { injectSearchProjectsQuery } from 'src/app/project/store/project/queries/searchprojects.query';
+import { injectSearchProjectsQuery } from 'src/app/project/store/project/queries/searchProjects.query';
 import { SearchProjectRequestInterface } from 'src/app/project/types/searchProjectsRequest.interface';
 import { injectAllProjectsQuery } from 'src/app/profile/store/profile/queries/allProjects.query';
+import { MessageService } from 'primeng/api';
 
 interface DropdownOption {
   key: string;
@@ -61,15 +62,34 @@ export class ShotsComponent implements OnInit {
   allTags: CreateQueryResult<TagInterface[], Error>;
   searchProjectsQuery: CreateQueryResult<ProjectInterface[], Error>;
   allProjects: CreateQueryResult<ProjectInterface[], Error>;
+  responsiveOptions: any[] | undefined;
 
   constructor(
     private spinner: NgxSpinnerService,
-    private router: Router,
+    protected router: Router,
     private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
     this.initializeValues();
+
+    this.responsiveOptions = [
+      // {
+      //   breakpoint: '1024px',
+      //   numVisible: 3,
+      //   numScroll: 3,
+      // },
+      {
+        breakpoint: '768px',
+        numVisible: 5,
+        numScroll: 3,
+      },
+      {
+        breakpoint: '480px',
+        numVisible: 3,
+        numScroll: 3,
+      },
+    ];
   }
 
   initializeValues(): void {

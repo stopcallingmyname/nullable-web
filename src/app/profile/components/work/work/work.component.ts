@@ -14,11 +14,18 @@ import { ProjectInterface } from 'src/app/project/types/project.interface';
 import { injectUserProfileByUsernameQuery } from 'src/app/shared/store/profile/queries/userProfileByUsername.query';
 
 import { CurrentProfileInterface } from 'src/app/shared/types/currentProfile.interface';
+import { LikeButtonComponent } from '../../../../shared/components/like-button/like-button.component';
 
 @Component({
   selector: 'nb-work',
   standalone: true,
-  imports: [NgIconComponent, RouterLink, ToastModule, CommonModule],
+  imports: [
+    NgIconComponent,
+    RouterLink,
+    ToastModule,
+    CommonModule,
+    LikeButtonComponent,
+  ],
   providers: [MessageService],
   templateUrl: './work.component.html',
   styleUrl: './work.component.scss',
@@ -40,28 +47,6 @@ export class WorkComponent implements OnInit {
     this.initializeValues();
   }
   onProjectClicked(event: Event): void {}
-
-  onLikeProject(event: Event, project: ProjectInterface): void {
-    event.stopPropagation();
-
-    this._likeProjectMutation = injectLikeProjectMutation(
-      { injector: this._injector },
-      { projectId: project.id }
-    );
-
-    this._likeProjectMutation.mutate(
-      { title: 'like-project-mutation' },
-      {
-        onError: (error: HttpErrorResponse) => {
-          this._messageService.add({
-            summary: 'Oops! 😅',
-            detail:
-              'Something went wrong. Please, try again it only takes a second! 🚀',
-          });
-        },
-      }
-    );
-  }
 
   initializeValues(): void {
     this._activatedRoute.parent?.paramMap.subscribe((params) => {

@@ -17,6 +17,13 @@ import { UpdateUserPasswordRequestInterface } from '../types/updateUserPasswordR
 export class UserService {
   constructor(private http: HttpClient) {}
 
+  getUserByProfileId(profileId: string): Observable<CurrentUserInterface> {
+    return this.http.get<CurrentUserInterface>(
+      `${environment.nullableApiUrl}/user/profile_id=${profileId}`,
+      { withCredentials: true }
+    );
+  }
+
   updateUser(
     newProfileData: UpdateUserRequestInterface
   ): Observable<CurrentUserInterface> {
