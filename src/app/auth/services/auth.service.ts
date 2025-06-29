@@ -21,6 +21,8 @@ export class AuthService {
   }
 
   login(user: LoginRequestInterface): Observable<void> {
+    console.log(environment.uploadcareSecretKey);
+    console.log(environment.nullableApiUrl);
     return this.http.post<void>(
       `${environment.nullableApiUrl}/auth/login`,
       user,
